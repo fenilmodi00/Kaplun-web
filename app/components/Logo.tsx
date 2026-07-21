@@ -18,6 +18,7 @@ export function Logo({ size = 28, className = "" }: LogoProps) {
         objectFit: "contain",
         width: `${size}px`,
         height: `${size}px`,
+        borderRadius: "15%",
       }}
     />
   );
