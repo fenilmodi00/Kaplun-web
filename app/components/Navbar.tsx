@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Logo } from "./Logo";
 
 interface NavbarProps {
-  onOpenWaitlist: () => void;
+  onOpenWaitlist?: () => void;
 }
 
 export function Navbar({ onOpenWaitlist }: NavbarProps) {
@@ -77,6 +77,12 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
       if (targetEl) {
         targetEl.scrollIntoView({ behavior: "smooth" });
       }
+    } else if (href.startsWith("/#") && window.location.pathname === "/") {
+      e.preventDefault();
+      const targetEl = document.querySelector(href.substring(1));
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 
@@ -93,8 +99,8 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
         <div className={`kaplun-capsule-bar ${isScrolled ? "scrolled" : "top"}`}>
           {/* Brand Logo */}
           <a
-            href="#"
-            onClick={(e) => handleNavClick(e, "#")}
+            href="/"
+            onClick={() => setMobileMenuOpen(false)}
             style={{
               fontSize: "20px",
               fontWeight: 700,
@@ -113,22 +119,22 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
           {/* Desktop Nav Links (Hidden on Mobile via CSS) */}
           <nav className="kaplun-desktop-only" style={{ alignItems: "center", gap: "4px" }}>
             <a
-              href="#services"
-              onClick={(e) => handleNavClick(e, "#services")}
+              href="/#services"
+              onClick={(e) => handleNavClick(e, "/#services")}
               className="kaplun-capsule-link"
             >
               Services
             </a>
             <a
-              href="#how-it-works"
-              onClick={(e) => handleNavClick(e, "#how-it-works")}
+              href="/#how-it-works"
+              onClick={(e) => handleNavClick(e, "/#how-it-works")}
               className="kaplun-capsule-link"
             >
               How It Works
             </a>
             <a
-              href="#results"
-              onClick={(e) => handleNavClick(e, "#results")}
+              href="/#results"
+              onClick={(e) => handleNavClick(e, "/#results")}
               className="kaplun-capsule-link"
             >
               Results
@@ -139,7 +145,7 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
           <div className="kaplun-desktop-only" style={{ alignItems: "center" }}>
             <button
               type="button"
-              onClick={onOpenWaitlist}
+              onClick={() => onOpenWaitlist?.()}
               className="kaplun-btn"
               style={{
                 background: "var(--clay-primary)",
@@ -199,7 +205,12 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Drawer Header */}
-            <div className="kaplun-mobile-card-header">
+            <a
+              href="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className="kaplun-mobile-card-header"
+              style={{ textDecoration: "none" }}
+            >
               <span
                 style={{
                   fontSize: "18px",
@@ -217,7 +228,10 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
 
               <button
                 type="button"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMobileMenuOpen(false);
+                }}
                 className="kaplun-hamburger-btn"
                 style={{ width: "36px", height: "36px" }}
                 aria-label="Close menu"
@@ -227,13 +241,13 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
                   <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
               </button>
-            </div>
+            </a>
 
             {/* Nav Items List */}
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               <a
-                href="#services"
-                onClick={(e) => handleNavClick(e, "#services")}
+                href="/#services"
+                onClick={(e) => handleNavClick(e, "/#services")}
                 className="kaplun-mobile-nav-item"
               >
                 <span>Services</span>
@@ -242,8 +256,8 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
                 </svg>
               </a>
               <a
-                href="#how-it-works"
-                onClick={(e) => handleNavClick(e, "#how-it-works")}
+                href="/#how-it-works"
+                onClick={(e) => handleNavClick(e, "/#how-it-works")}
                 className="kaplun-mobile-nav-item"
               >
                 <span>How It Works</span>
@@ -252,8 +266,8 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
                 </svg>
               </a>
               <a
-                href="#results"
-                onClick={(e) => handleNavClick(e, "#results")}
+                href="/#results"
+                onClick={(e) => handleNavClick(e, "/#results")}
                 className="kaplun-mobile-nav-item"
               >
                 <span>Results</span>
@@ -270,7 +284,7 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
               type="button"
               onClick={() => {
                 setMobileMenuOpen(false);
-                onOpenWaitlist();
+                onOpenWaitlist?.();
               }}
               className="kaplun-btn kaplun-mobile-cta-btn"
             >
