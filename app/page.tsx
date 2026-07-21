@@ -92,7 +92,7 @@ export default function Home() {
 
       {/* ═══ HERO ═══ */}
       <section
-        className="kaplun-reveal"
+        className="kaplun-hero-section kaplun-reveal"
         style={{ padding: "var(--clay-spacing-section) var(--clay-spacing-lg)", maxWidth: 1280, margin: "0 auto" }}
       >
         <div className="kaplun-hero-grid">
@@ -326,47 +326,50 @@ export default function Home() {
       </section>
 
       {/* ═══ FOOTER ═══ */}
-      <footer style={{ background: "var(--clay-surface-soft)", padding: "80px var(--clay-spacing-lg) var(--clay-spacing-xl)" }}>
+      <footer style={{ background: "var(--clay-surface-soft)", padding: "60px var(--clay-spacing-lg) var(--clay-spacing-xl)" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div className="kaplun-footer-grid" style={{ marginBottom: "var(--clay-spacing-2xl)" }}>
-            <div>
+          <div className="kaplun-footer-container">
+            <div className="kaplun-footer-brand">
               <h4 style={{ fontSize: "var(--clay-title-lg)", fontWeight: 700, color: "var(--clay-ink)", marginBottom: "var(--clay-spacing-xs)" }}>Kaplun</h4>
-              <p style={{ fontSize: "var(--clay-body-sm)", color: "var(--clay-muted)", maxWidth: 280 }}>
+              <p style={{ fontSize: "var(--clay-body-sm)", color: "var(--clay-muted)", maxWidth: 320, lineHeight: 1.6 }}>
                 The AI creator-led growth partner. We pair AI automation with a senior in-house team to ship influencer campaigns that move the needle.
               </p>
             </div>
-            <div>
-              <h5 style={{ fontSize: "var(--clay-body-sm)", fontWeight: 600, color: "var(--clay-ink)", marginBottom: "var(--clay-spacing-sm)" }}>Services</h5>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                {["Influencer Sourcing", "Seeding & Affiliates", "Organic Content", "Creator Ads"].map((item) => (
-                  <li key={item} style={{ marginBottom: "var(--clay-spacing-xs)" }}>
-                    <a href="#services" style={{ fontSize: "var(--clay-body-sm)", color: "var(--clay-muted)", textDecoration: "none" }}>{item}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h5 style={{ fontSize: "var(--clay-body-sm)", fontWeight: 600, color: "var(--clay-ink)", marginBottom: "var(--clay-spacing-sm)" }}>Company</h5>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                {["About", "Blog", "Contact"].map((item) => (
-                  <li key={item} style={{ marginBottom: "var(--clay-spacing-xs)" }}>
-                    <a href={`#${item.toLowerCase()}`} style={{ fontSize: "var(--clay-body-sm)", color: "var(--clay-muted)", textDecoration: "none" }}>{item}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h5 style={{ fontSize: "var(--clay-body-sm)", fontWeight: 600, color: "var(--clay-ink)", marginBottom: "var(--clay-spacing-sm)" }}>Legal</h5>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                {["Privacy", "Terms"].map((item) => (
-                  <li key={item} style={{ marginBottom: "var(--clay-spacing-xs)" }}>
-                    <a href={`#${item.toLowerCase()}`} style={{ fontSize: "var(--clay-body-sm)", color: "var(--clay-muted)", textDecoration: "none" }}>{item}</a>
-                  </li>
-                ))}
-              </ul>
+            
+            <div className="kaplun-footer-cols-grid">
+              <div>
+                <h5 style={{ fontSize: "var(--clay-body-sm)", fontWeight: 600, color: "var(--clay-ink)", marginBottom: "var(--clay-spacing-sm)" }}>Services</h5>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                  {["Influencer Sourcing", "Seeding & Affiliates", "Organic Content", "Creator Ads"].map((item) => (
+                    <li key={item} style={{ marginBottom: "var(--clay-spacing-xs)" }}>
+                      <a href="#services" style={{ fontSize: "var(--clay-body-sm)", color: "var(--clay-muted)", textDecoration: "none" }}>{item}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h5 style={{ fontSize: "var(--clay-body-sm)", fontWeight: 600, color: "var(--clay-ink)", marginBottom: "var(--clay-spacing-sm)" }}>Company</h5>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                  {["About", "Blog", "Contact"].map((item) => (
+                    <li key={item} style={{ marginBottom: "var(--clay-spacing-xs)" }}>
+                      <a href={`#${item.toLowerCase()}`} style={{ fontSize: "var(--clay-body-sm)", color: "var(--clay-muted)", textDecoration: "none" }}>{item}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h5 style={{ fontSize: "var(--clay-body-sm)", fontWeight: 600, color: "var(--clay-ink)", marginBottom: "var(--clay-spacing-sm)" }}>Legal</h5>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                  {["Privacy", "Terms"].map((item) => (
+                    <li key={item} style={{ marginBottom: "var(--clay-spacing-xs)" }}>
+                      <a href={`#${item.toLowerCase()}`} style={{ fontSize: "var(--clay-body-sm)", color: "var(--clay-muted)", textDecoration: "none" }}>{item}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
-          <p style={{ fontSize: "var(--clay-body-sm)", color: "var(--clay-muted-soft)", borderTop: "1px solid var(--clay-hairline)", paddingTop: "var(--clay-spacing-lg)" }}>
+          <p style={{ fontSize: "var(--clay-body-sm)", color: "var(--clay-muted-soft)", borderTop: "1px solid var(--clay-hairline)", paddingTop: "var(--clay-spacing-lg)", marginTop: "var(--clay-spacing-xl)" }}>
             © 2026 Kaplun. All rights reserved.
           </p>
         </div>
