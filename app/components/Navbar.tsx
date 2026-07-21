@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { Logo } from "./Logo";
 
 interface NavbarProps {
   onOpenWaitlist: () => void;
@@ -102,19 +103,11 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
               textDecoration: "none",
               display: "flex",
               alignItems: "center",
-              gap: "6px",
+              gap: "8px",
             }}
           >
+            <Logo size={26} />
             <span>Kaplun</span>
-            <span
-              style={{
-                width: "6px",
-                height: "6px",
-                borderRadius: "50%",
-                background: "var(--clay-brand-pink)",
-                display: "inline-block",
-              }}
-            />
           </a>
 
           {/* Desktop Nav Links (Hidden on Mobile via CSS) */}
@@ -215,19 +208,11 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
                   letterSpacing: "-0.5px",
                   display: "flex",
                   alignItems: "center",
-                  gap: "6px",
+                  gap: "8px",
                 }}
               >
-                Kaplun
-                <span
-                  style={{
-                    width: "6px",
-                    height: "6px",
-                    borderRadius: "50%",
-                    background: "var(--clay-brand-pink)",
-                    display: "inline-block",
-                  }}
-                />
+                <Logo size={24} />
+                <span>Kaplun</span>
               </span>
 
               <button
