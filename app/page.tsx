@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { WaitlistModal } from "./components/WaitlistModal";
 import { Navbar } from "./components/Navbar";
 
