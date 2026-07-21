@@ -12,6 +12,7 @@ export function WaitlistModal({
 }) {
   const { waitlist, errors, fetchStatus } = useWaitlist();
   const [email, setEmail] = useState("");
+  const [duplicateEmail, setDuplicateEmail] = useState(false);
 
   if (!open) return null;
 
@@ -20,12 +21,19 @@ export function WaitlistModal({
 
     const { error } = await waitlist.join({ emailAddress: email });
     if (error) {
-      console.error("Failed to join waitlist:", error);
+      const isDuplicate =
+        (error as any)?.errors?.[0]?.code === "form_identifier_exists";
+      if (isDuplicate) {
+        setDuplicateEmail(true);
+      } else {
+        console.error("Failed to join waitlist:", error);
+      }
     }
   };
 
-  // Already on the waitlist
-  if (waitlist.id) {
+  // Already on the waitlist (new signup or already registered)
+  if (waitlist.id || duplicateEmail) {
+    const isAlreadyRegistered = duplicateEmail && !waitlist.id;
     return (
       // eslint-disable-next-line jsx-a11y/no-static-element-interactions
       <div
@@ -55,7 +63,9 @@ export function WaitlistModal({
           onClick={(e) => e.stopPropagation()}
           onKeyDown={(e) => e.stopPropagation()}
         >
-          <div style={{ fontSize: 48, marginBottom: "var(--clay-spacing-md)" }}>🎉</div>
+          <div style={{ fontSize: 48, marginBottom: "var(--clay-spacing-md)" }}>
+            {isAlreadyRegistered ? "👋" : "🎉"}
+          </div>
           <h2
             style={{
               fontSize: "var(--clay-title-lg)",
@@ -64,7 +74,7 @@ export function WaitlistModal({
               marginBottom: "var(--clay-spacing-xs)",
             }}
           >
-            You&apos;re on the list!
+            {isAlreadyRegistered ? "Already on the list!" : "You're on the list!"}
           </h2>
           <p
             style={{
@@ -73,7 +83,9 @@ export function WaitlistModal({
               marginBottom: "var(--clay-spacing-xl)",
             }}
           >
-            We&apos;ll notify you when Kaplun is ready. Thanks for your interest!
+            {isAlreadyRegistered
+              ? "You're already on the waitlist. We'll get back to you soon!"
+              : "We'll notify you when Kaplun is ready. Thanks for your interest!"}
           </p>
           <button
             type="button"
