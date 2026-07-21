@@ -84,6 +84,15 @@ const testimonials = [
 
 export default function Home() {
   const [waitlistOpen, setWaitlistOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <main style={{ background: "var(--clay-canvas)", minHeight: "100vh" }} suppressHydrationWarning />;
+  }
 
   return (
     <main style={{ background: "var(--clay-canvas)", minHeight: "100vh" }} suppressHydrationWarning>
