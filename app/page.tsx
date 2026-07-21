@@ -86,7 +86,7 @@ export default function Home() {
   const [waitlistOpen, setWaitlistOpen] = useState(false);
 
   return (
-    <main style={{ background: "var(--clay-canvas)", minHeight: "100vh" }}>
+    <main style={{ background: "var(--clay-canvas)", minHeight: "100vh" }} suppressHydrationWarning>
       {/* ═══ CAPSULE NAV ═══ */}
       <Navbar onOpenWaitlist={() => setWaitlistOpen(true)} />
 

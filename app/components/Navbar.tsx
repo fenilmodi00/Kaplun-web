@@ -84,12 +84,13 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
       {/* ═══ CAPSULE NAVBAR HEADER ═══ */}
       <header
         className="kaplun-capsule-wrapper"
+        suppressHydrationWarning
         style={{
           transform: isVisible || mobileMenuOpen ? "translateY(0)" : "translateY(-140%)",
           opacity: isVisible || mobileMenuOpen ? 1 : 0,
         }}
       >
-        <div className={`kaplun-capsule-bar ${isScrolled ? "scrolled" : "top"}`}>
+        <div className={`kaplun-capsule-bar ${isScrolled ? "scrolled" : "top"}`} suppressHydrationWarning>
           {/* Brand Logo */}
           <a
             href="#"
