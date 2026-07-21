@@ -21,6 +21,7 @@ node_modules
 # python
 __pycache__/
 *.pyc
+kaplun.tech/
 
 # index / rag
 opencode-rag.json
