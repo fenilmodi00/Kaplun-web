@@ -19,8 +19,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Kaplun — Coming Soon",
-  description: "The future of intelligent automation. Enterprise-grade AI that adapts to your business.",
+  title: "Kaplun — AI Creator-Led Growth Partner",
+  description: "The AI creator-led growth partner. We pair the best AI for creator marketing with a senior in-house team — so you can ship influencer campaigns that move the needle.",
 };
 
 export default function RootLayout({
