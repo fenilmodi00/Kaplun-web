@@ -81,15 +81,76 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Sticky nav ── */
-.kaplun-nav {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  background: rgba(255, 250, 240, 0.85);
-  border-bottom: 1px solid var(--clay-hairline);
+/* ── Capsule Floating Nav ── */
+.kaplun-capsule-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--clay-body);
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.kaplun-capsule-link:hover {
+  color: var(--clay-ink);
+  background: rgba(10, 10, 10, 0.05);
+}
+
+.kaplun-mobile-link {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--clay-ink);
+  text-decoration: none;
+  padding: 12px 16px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(10, 10, 10, 0.03);
+  transition: all 0.2s ease;
+}
+.kaplun-mobile-link:hover, .kaplun-mobile-link:active {
+  background: rgba(10, 10, 10, 0.07);
+}
+
+@media (max-width: 767px) {
+  .kaplun-desktop-links {
+    display: none !important;
+  }
+  .kaplun-desktop-cta {
+    display: none !important;
+  }
+  .kaplun-mobile-toggle {
+    display: flex !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .kaplun-desktop-links {
+    display: flex !important;
+  }
+  .kaplun-desktop-cta {
+    display: inline-flex !important;
+  }
+  .kaplun-mobile-toggle {
+    display: none !important;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* ── Premium hover transitions ── */

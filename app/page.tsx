@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { WaitlistModal } from "./components/WaitlistModal";
+import { Navbar } from "./components/Navbar";
 
 const metrics = [
   { value: "8,000+", label: "Creators Sourced" },
@@ -86,64 +87,8 @@ export default function Home() {
 
   return (
     <main style={{ background: "var(--clay-canvas)", minHeight: "100vh" }}>
-      {/* ═══ STICKY NAV ═══ */}
-      <nav className="kaplun-nav">
-        <div
-          className="kaplun-nav-inner"
-          style={{
-            maxWidth: 1280,
-            margin: "0 auto",
-            padding: "var(--clay-spacing-lg) var(--clay-spacing-lg)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <span
-            style={{
-              fontSize: "var(--clay-title-lg)",
-              fontWeight: 700,
-              color: "var(--clay-ink)",
-              letterSpacing: "-1px",
-            }}
-          >
-            Kaplun
-          </span>
-          <div
-            className="kaplun-nav-links"
-            style={{ display: "flex", gap: "var(--clay-spacing-lg)", alignItems: "center" }}
-          >
-            <a href="#services" className="kaplun-btn-outline" style={{ fontSize: "var(--clay-body-sm)", color: "var(--clay-muted)", textDecoration: "none" }}>
-              Services
-            </a>
-            <a href="#how-it-works" className="kaplun-btn-outline" style={{ fontSize: "var(--clay-body-sm)", color: "var(--clay-muted)", textDecoration: "none" }}>
-              How It Works
-            </a>
-            <a href="#results" className="kaplun-btn-outline" style={{ fontSize: "var(--clay-body-sm)", color: "var(--clay-muted)", textDecoration: "none" }}>
-              Results
-            </a>
-            <button
-              type="button"
-              onClick={() => setWaitlistOpen(true)}
-              className="kaplun-btn"
-              style={{
-                background: "var(--clay-primary)",
-                color: "var(--clay-on-primary)",
-                height: 36,
-                padding: "0 16px",
-                borderRadius: "var(--clay-rounded-md)",
-                fontSize: "var(--clay-button)",
-                fontWeight: 600,
-                fontFamily: '"Inter", sans-serif',
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              Book a Call
-            </button>
-          </div>
-        </div>
-      </nav>
+      {/* ═══ CAPSULE NAV ═══ */}
+      <Navbar onOpenWaitlist={() => setWaitlistOpen(true)} />
 
       {/* ═══ HERO ═══ */}
       <section
