@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
 import { Logo } from "./Logo";
 
 interface NavbarProps {
@@ -14,8 +12,6 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const lastScrollYRef = useRef(0);
-  const router = useRouter();
-  const pathname = usePathname();
 
   // Scroll visibility & background elevation state
   useEffect(() => {
@@ -73,14 +69,28 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
     setIsVisible(true);
   };
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetHash: string) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     setMobileMenuOpen(false);
-    if (pathname === "/") {
+    if (href.startsWith("#")) {
       e.preventDefault();
-      const targetEl = document.querySelector(targetHash);
+      const targetEl = document.querySelector(href);
       if (targetEl) {
         targetEl.scrollIntoView({ behavior: "smooth" });
       }
+    } else if (href.startsWith("/#") && window.location.pathname === "/") {
+      e.preventDefault();
+      const targetEl = document.querySelector(href.substring(1));
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    setMobileMenuOpen(false);
+    if (window.location.pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -96,9 +106,9 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
       >
         <div className={`kaplun-capsule-bar ${isScrolled ? "scrolled" : "top"}`}>
           {/* Brand Logo */}
-          <Link
+          <a
             href="/"
-            onClick={() => setMobileMenuOpen(false)}
+            onClick={handleLogoClick}
             style={{
               fontSize: "20px",
               fontWeight: 700,
@@ -112,31 +122,31 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
           >
             <Logo size={26} />
             <span>Kaplun</span>
-          </Link>
+          </a>
 
           {/* Desktop Nav Links (Hidden on Mobile via CSS) */}
           <nav className="kaplun-desktop-only" style={{ alignItems: "center", gap: "4px" }}>
-            <Link
+            <a
               href="/#services"
-              onClick={(e) => handleNavClick(e, "#services")}
+              onClick={(e) => handleNavClick(e, "/#services")}
               className="kaplun-capsule-link"
             >
               Services
-            </Link>
-            <Link
+            </a>
+            <a
               href="/#how-it-works"
-              onClick={(e) => handleNavClick(e, "#how-it-works")}
+              onClick={(e) => handleNavClick(e, "/#how-it-works")}
               className="kaplun-capsule-link"
             >
               How It Works
-            </Link>
-            <Link
+            </a>
+            <a
               href="/#results"
-              onClick={(e) => handleNavClick(e, "#results")}
+              onClick={(e) => handleNavClick(e, "/#results")}
               className="kaplun-capsule-link"
             >
               Results
-            </Link>
+            </a>
           </nav>
 
           {/* Desktop CTA Button */}
@@ -203,9 +213,9 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Drawer Header */}
-            <Link
+            <a
               href="/"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={handleLogoClick}
               className="kaplun-mobile-card-header"
               style={{ textDecoration: "none" }}
             >
@@ -239,40 +249,40 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
                   <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
               </button>
-            </Link>
+            </a>
 
             {/* Nav Items List */}
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              <Link
+              <a
                 href="/#services"
-                onClick={(e) => handleNavClick(e, "#services")}
+                onClick={(e) => handleNavClick(e, "/#services")}
                 className="kaplun-mobile-nav-item"
               >
                 <span>Services</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
-              </Link>
-              <Link
+              </a>
+              <a
                 href="/#how-it-works"
-                onClick={(e) => handleNavClick(e, "#how-it-works")}
+                onClick={(e) => handleNavClick(e, "/#how-it-works")}
                 className="kaplun-mobile-nav-item"
               >
                 <span>How It Works</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
-              </Link>
-              <Link
+              </a>
+              <a
                 href="/#results"
-                onClick={(e) => handleNavClick(e, "#results")}
+                onClick={(e) => handleNavClick(e, "/#results")}
                 className="kaplun-mobile-nav-item"
               >
                 <span>Results</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
-              </Link>
+              </a>
             </div>
 
             <div style={{ height: "1px", background: "var(--clay-hairline)", margin: "2px 0" }} />
