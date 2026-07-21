@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { WaitlistModal } from "./components/WaitlistModal";
 import { Navbar } from "./components/Navbar";
 
@@ -84,18 +84,9 @@ const testimonials = [
 
 export default function Home() {
   const [waitlistOpen, setWaitlistOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return <main style={{ background: "var(--clay-canvas)", minHeight: "100vh" }} suppressHydrationWarning />;
-  }
 
   return (
-    <main style={{ background: "var(--clay-canvas)", minHeight: "100vh" }} suppressHydrationWarning>
+    <main style={{ background: "var(--clay-canvas)", minHeight: "100vh" }}>
       {/* ═══ CAPSULE NAV ═══ */}
       <Navbar onOpenWaitlist={() => setWaitlistOpen(true)} />
 
