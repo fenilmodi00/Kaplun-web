@@ -362,7 +362,7 @@ export default function Home() {
                 <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                   {["Privacy", "Terms"].map((item) => (
                     <li key={item} style={{ marginBottom: "var(--clay-spacing-xs)" }}>
-                      <a href={`#${item.toLowerCase()}`} style={{ fontSize: "var(--clay-body-sm)", color: "var(--clay-muted)", textDecoration: "none" }}>{item}</a>
+                      <a href={item === "Privacy" ? "/privacy-policy" : `#${item.toLowerCase()}`} style={{ fontSize: "var(--clay-body-sm)", color: "var(--clay-muted)", textDecoration: "none" }}>{item}</a>
                     </li>
                   ))}
                 </ul>
