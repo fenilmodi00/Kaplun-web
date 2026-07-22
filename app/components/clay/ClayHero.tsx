@@ -14,25 +14,26 @@ export function ClayHero({ onOpenWaitlist }: ClayHeroProps) {
   }, []);
 
   return (
-    <section className="relative bg-[#035D44] overflow-hidden lg:h-[94vh] lg:min-h-[640px] lg:max-h-[980px] lg:flex lg:flex-col">
-      <div className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-auto lg:flex-1 lg:min-h-0">
-        <div className="relative w-full h-full overflow-hidden">
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            className="absolute inset-0 w-full h-full object-cover object-top kaplun-kenburns"
-          >
-            <source src="/media/homemain.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-x-0 bottom-0 h-28 sm:h-32 bg-gradient-to-t from-[#035D44] to-transparent pointer-events-none" />
-        </div>
+    <section className="kaplun-hero-no-padding relative bg-[#035D44] overflow-hidden lg:h-[94vh] lg:min-h-[640px] lg:max-h-[980px] flex flex-col justify-end">
+      {/* Absolute Background Video spanning full section */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover object-top kaplun-kenburns"
+        >
+          <source src="/media/homemain.mp4" type="video/mp4" />
+        </video>
+        {/* Soft bottom gradient transition */}
+        <div className="absolute inset-x-0 bottom-0 h-32 sm:h-48 bg-gradient-to-t from-[#035D44] via-[#035D44]/40 to-transparent pointer-events-none" />
       </div>
 
-      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-24 lg:pt-4 lg:pb-28">
+      {/* Relative text content on top of video */}
+      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[200px] sm:pt-[260px] lg:pt-0 pb-16 sm:pb-20 lg:pb-20 z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-end">
           {/* Bottom-left: pill + h1 */}
           <div className="lg:col-span-7 space-y-5">

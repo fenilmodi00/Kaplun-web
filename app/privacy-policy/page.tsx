@@ -1,14 +1,10 @@
-import type { Metadata } from "next";
-import { Navbar } from "../components/Navbar";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description:
-    "Read the Kaplun privacy policy and learn how we collect, use, retain, and protect user information on our platform.",
-  alternates: {
-    canonical: "https://kaplun.tech/privacy-policy",
-  },
-};
+import { useState, useRef } from "react";
+import { Navbar } from "../components/Navbar";
+import { ClayFooter } from "../components/clay/ClayFooter";
+import { ScrollReveal } from "../components/clay/ScrollReveal";
+import { WaitlistModal } from "../components/WaitlistModal";
 
 const sections = [
   {
@@ -300,319 +296,148 @@ You also have the right to lodge a complaint with your local data protection aut
   },
 ];
 
-export default function PrivacyPolicyPage() {
-  return (
-    <main style={{ background: "var(--clay-canvas)", minHeight: "100vh" }}>
-      <Navbar />
+const sectionColors = [
+  { bg: "bg-[#ff4d8b]", text: "text-white" },
+  { bg: "bg-[#1a3a3a]", text: "text-white" },
+  { bg: "bg-[#b8a4ed]", text: "text-[#0a0a0a]" },
+  { bg: "bg-[#ffb084]", text: "text-[#0a0a0a]" },
+  { bg: "bg-[#e8b94a]", text: "text-[#0a0a0a]" },
+  { bg: "bg-[#faf5e8]", text: "text-[#0a0a0a]" },
+];
 
-      {/* Hero Section */}
-      <section
-        style={{
-          padding: "var(--clay-spacing-section) var(--clay-spacing-lg) var(--clay-spacing-2xl)",
-          maxWidth: 1280,
-          margin: "0 auto",
-          paddingTop: "120px",
-        }}
-      >
-        <p
-          style={{
-            fontSize: "var(--clay-caption-uppercase)",
-            fontWeight: 600,
-            letterSpacing: "1.5px",
-            textTransform: "uppercase",
-            color: "var(--clay-muted)",
-            marginBottom: "var(--clay-spacing-sm)",
-          }}
-        >
+function formatContent(text: string, sectionId: string) {
+  const paras = text.split("\n\n");
+  return paras.map((paragraph) => {
+    const slug = paragraph.replace(/[^a-zA-Z0-9]/g, "").slice(0, 24) || "p";
+    const parts = paragraph.split(/(\*\*[^*]+\*\*)/g);
+    return (
+      <p key={`${sectionId}-${slug}`} className={paragraph !== paras[0] ? "mt-3" : ""}>
+        {parts.map((part) => {
+          if (part.startsWith("**") && part.endsWith("**")) {
+            const boldSlug = part.replace(/[^a-zA-Z0-9]/g, "").slice(0, 20) || "b";
+            return <strong key={`${sectionId}-${boldSlug}`}>{part.slice(2, -2)}</strong>;
+          }
+          return part;
+        })}
+      </p>
+    );
+  });
+}
+
+export default function PrivacyPolicyPage() {
+  const [waitlistOpen, setWaitlistOpen] = useState(false);
+  const [waitlistMounted, setWaitlistMounted] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openWaitlist = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    setWaitlistMounted(true);
+    setWaitlistOpen(true);
+  };
+
+  const closeWaitlist = () => {
+    setWaitlistOpen(false);
+    closeTimer.current = setTimeout(() => setWaitlistMounted(false), 280);
+  };
+
+  return (
+    <main className="min-h-screen bg-[#fffaf0] text-[#0a0a0a] selection:bg-amber-200">
+      <Navbar onOpenWaitlist={openWaitlist} />
+
+      {/* Hero */}
+      <section className="pt-28 pb-12 lg:pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <span className="kaplun-reveal inline-block text-xs font-bold tracking-widest uppercase text-[#666666] mb-3">
           Legal
-        </p>
+        </span>
         <h1
-          style={{
-            fontSize: "var(--clay-display-lg)",
-            fontWeight: 500,
-            letterSpacing: "-2px",
-            color: "var(--clay-ink)",
-            lineHeight: 1.05,
-            marginBottom: "var(--clay-spacing-md)",
-          }}
+          className="kaplun-reveal kaplun-reveal-delay-1 text-[44px] sm:text-[56px] lg:text-[72px] leading-[1.05] font-bold text-[#0a0a0a] tracking-[-2px] sm:tracking-[-2.8px]"
+          style={{ fontFamily: "var(--font-display), Arial, sans-serif" }}
         >
           Privacy Policy
         </h1>
-        <p
-          style={{
-            fontSize: "var(--clay-body-md)",
-            color: "var(--clay-body)",
-            maxWidth: 640,
-            lineHeight: 1.6,
-          }}
-        >
+        <p className="kaplun-reveal kaplun-reveal-delay-2 text-base text-[#666666] mt-3 max-w-xl leading-relaxed">
           Last updated: July 21, 2026
         </p>
       </section>
 
-      {/* Table of Contents */}
-      <section
-        style={{
-          padding: "0 var(--clay-spacing-lg) var(--clay-spacing-2xl)",
-          maxWidth: 1280,
-          margin: "0 auto",
-        }}
-      >
-        <div
-          style={{
-            background: "var(--clay-surface-soft)",
-            borderRadius: "var(--clay-rounded-lg)",
-            padding: "var(--clay-spacing-xl)",
-          }}
-        >
-          <h2
-            style={{
-              fontSize: "var(--clay-title-md)",
-              fontWeight: 600,
-              color: "var(--clay-ink)",
-              marginBottom: "var(--clay-spacing-md)",
-            }}
-          >
-            Contents
-          </h2>
-          <nav>
-            <ul
-              style={{
-                listStyle: "none",
-                padding: 0,
-                margin: 0,
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-                gap: "var(--clay-spacing-sm)",
-              }}
+      {/* Table of Contents — white rounded card */}
+      <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-12">
+        <ScrollReveal>
+          <div className="bg-white rounded-2xl border border-black/5 shadow-sm p-6 sm:p-8">
+            <h2
+              className="text-lg font-bold text-[#0a0a0a] mb-4"
+              style={{ fontFamily: "var(--font-display), Arial, sans-serif" }}
             >
-              {sections.map((section) => (
-                <li key={section.id}>
-                  <a
-                    href={`#${section.id}`}
-                    style={{
-                      fontSize: "var(--clay-body-sm)",
-                      color: "var(--clay-body)",
-                      textDecoration: "none",
-                    }}
+              Contents
+            </h2>
+            <nav>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 list-none p-0 m-0">
+                {sections.map((section) => (
+                  <li key={section.id}>
+                    <a
+                      href={`#${section.id}`}
+                      className="text-sm text-[#383838] hover:text-[#0a0a0a] no-underline transition-colors"
+                    >
+                      {section.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        </ScrollReveal>
+      </section>
+
+      {/* Introduction card */}
+      <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-12">
+        <ScrollReveal>
+          <div className="bg-white rounded-2xl border border-black/5 shadow-sm p-6 sm:p-8">
+            <p className="text-base sm:text-lg text-[#383838] leading-relaxed m-0">
+              Kaplun (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) operates the Kaplun platform and
+              related services (collectively, the &quot;Service&quot;). This Privacy Policy explains how we
+              collect, use, disclose, and safeguard your information when you use our AI-powered
+              influencer marketing platform, website, and related services. This policy also describes
+              your rights regarding your personal data and how to exercise them, including the right to
+              request deletion of your data.
+            </p>
+          </div>
+        </ScrollReveal>
+      </section>
+
+      {/* Policy sections — 6-color rotating saturated cards */}
+      <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-24 sm:pb-32">
+        <div className="flex flex-col gap-8">
+          {sections.map((section, index) => {
+            const color = sectionColors[index % sectionColors.length];
+            return (
+              <ScrollReveal key={section.id}>
+                <div id={section.id} className={`rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 ${color.bg} ${color.text} shadow-sm`}>
+                  <span className="inline-block text-xs font-bold tracking-widest uppercase opacity-60 mb-2">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h2
+                    className="text-xl sm:text-2xl font-bold mb-4 leading-snug"
+                    style={{ fontFamily: "var(--font-display), Arial, sans-serif" }}
                   >
                     {section.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
-      </section>
-
-      {/* Introduction */}
-      <section
-        style={{
-          padding: "0 var(--clay-spacing-lg) var(--clay-spacing-2xl)",
-          maxWidth: 1280,
-          margin: "0 auto",
-        }}
-      >
-        <div
-          style={{
-            background: "var(--clay-surface-card)",
-            borderRadius: "var(--clay-rounded-xl)",
-            padding: "var(--clay-spacing-xl)",
-            border: "1px solid var(--clay-hairline)",
-          }}
-        >
-          <p
-            style={{
-              fontSize: "var(--clay-body-md)",
-              color: "var(--clay-body)",
-              lineHeight: 1.7,
-              margin: 0,
-            }}
-          >
-            Kaplun ("we," "our," or "us") operates the Kaplun platform and related services
-            (collectively, the "Service"). This Privacy Policy explains how we collect, use,
-            disclose, and safeguard your information when you use our AI-powered influencer
-            marketing platform, website, and related services. This policy also describes your
-            rights regarding your personal data and how to exercise them, including the right
-            to request deletion of your data.
-          </p>
-        </div>
-      </section>
-
-      {/* Policy Sections */}
-      <section
-        style={{
-          padding: "0 var(--clay-spacing-lg) var(--clay-spacing-section)",
-          maxWidth: 1280,
-          margin: "0 auto",
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "column", gap: "var(--clay-spacing-2xl)" }}>
-          {sections.map((section, index) => (
-            <div key={section.id} id={section.id}>
-              <div
-                style={{
-                  background:
-                    index % 6 === 0
-                      ? "var(--clay-brand-pink)"
-                      : index % 6 === 1
-                        ? "var(--clay-brand-teal)"
-                        : index % 6 === 2
-                          ? "var(--clay-brand-lavender)"
-                          : index % 6 === 3
-                            ? "var(--clay-brand-peach)"
-                            : index % 6 === 4
-                              ? "var(--clay-brand-ochre)"
-                              : "var(--clay-surface-soft)",
-                  borderRadius: "var(--clay-rounded-xl)",
-                  padding: "var(--clay-spacing-xl)",
-                  color:
-                    index % 6 === 0 || index % 6 === 1
-                      ? "var(--clay-on-primary)"
-                      : "var(--clay-ink)",
-                }}
-              >
-                <span
-                  style={{
-                    display: "inline-block",
-                    fontSize: "var(--clay-caption-uppercase)",
-                    fontWeight: 700,
-                    letterSpacing: "1px",
-                    textTransform: "uppercase",
-                    opacity: 0.6,
-                    marginBottom: "var(--clay-spacing-sm)",
-                  }}
-                >
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h2
-                  style={{
-                    fontSize: "var(--clay-title-lg)",
-                    fontWeight: 600,
-                    marginBottom: "var(--clay-spacing-md)",
-                  }}
-                >
-                  {section.title}
-                </h2>
-                <div
-                  style={{
-                    fontSize: "var(--clay-body-md)",
-                    lineHeight: 1.7,
-                    opacity: 0.9,
-                    whiteSpace: "pre-line",
-                  }}
-                >
-                  {section.content.split("\n\n").map((paragraph, paraIdx) => {
-                    const paraKey = paragraph.slice(0, 30).replace(/[^a-zA-Z0-9]/g, "");
-                    const parts = paragraph.split(/(\*\*[^*]+\*\*)/g);
-                    return (
-                  <p
-                    key={`p-${section.id}-${paraKey}`}
-                    style={{
-                      margin: paraIdx === 0 ? 0 : "var(--clay-spacing-sm) 0 0",
-                    }}
-                  >
-                    {parts.map((part) => {
-                      if (part.startsWith("**") && part.endsWith("**")) {
-                        return (
-                          <strong key={`b-${section.id}-${paraKey}-${part.slice(2, 8)}`}>{part.slice(2, -2)}</strong>
-                        );
-                      }
-                      return part;
-                    })}
-                  </p>
-                    );
-                  })}
+                  </h2>
+                  <div className="text-sm sm:text-base leading-relaxed space-y-3 opacity-90" style={{ whiteSpace: "pre-line" }}>
+                    {formatContent(section.content, section.id)}
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              </ScrollReveal>
+            );
+          })}
         </div>
       </section>
 
       {/* Footer */}
-      <footer
-        style={{
-          background: "var(--clay-surface-soft)",
-          padding: "60px var(--clay-spacing-lg) var(--clay-spacing-xl)",
-        }}
-      >
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: "var(--clay-spacing-md)",
-              marginBottom: "var(--clay-spacing-xl)",
-            }}
-          >
-            <div>
-              <h4
-                style={{
-                  fontSize: "var(--clay-title-lg)",
-                  fontWeight: 700,
-                  color: "var(--clay-ink)",
-                  marginBottom: "var(--clay-spacing-xs)",
-                }}
-              >
-                Kaplun
-              </h4>
-              <p
-                style={{
-                  fontSize: "var(--clay-body-sm)",
-                  color: "var(--clay-muted)",
-                  maxWidth: 320,
-                  lineHeight: 1.6,
-                }}
-              >
-                The AI creator-led growth partner. We pair AI automation with a senior
-                in-house team to ship influencer campaigns that move the needle.
-              </p>
-            </div>
-            <div style={{ display: "flex", gap: "var(--clay-spacing-lg)" }}>
-              <a
-                href="/"
-                style={{
-                  fontSize: "var(--clay-body-sm)",
-                  color: "var(--clay-body)",
-                  textDecoration: "none",
-                }}
-              >
-                Home
-              </a>
-              <a
-                href="/privacy-policy"
-                style={{
-                  fontSize: "var(--clay-body-sm)",
-                  color: "var(--clay-ink)",
-                  textDecoration: "none",
-                  fontWeight: 600,
-                }}
-              >
-                Privacy Policy
-              </a>
-            </div>
-          </div>
-          <div
-            style={{
-              borderTop: "1px solid var(--clay-hairline)",
-              paddingTop: "var(--clay-spacing-lg)",
-              textAlign: "center",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "var(--clay-body-sm)",
-                color: "var(--clay-muted-soft)",
-              }}
-            >
-              © 2026 Kaplun. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <ClayFooter />
+
+      <WaitlistModal open={waitlistOpen} mounted={waitlistMounted} onClose={closeWaitlist} />
     </main>
   );
 }

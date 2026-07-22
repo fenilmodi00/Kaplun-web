@@ -71,10 +71,16 @@ Nav sits on top: white/cream bar, fixed, ~85% width, rounded bottom corners, 58.
 
 ### 0.6 Motion rules (verified + system)
 
+**Motion token definitions** (in `app/globals.css` `:root`):
+- `--clay-ease-out`: cubic-bezier(0.22, 1, 0.36, 1) — standard deceleration, used for scroll reveal.
+- `--clay-ease-deck`: cubic-bezier(0.16, 1, 0.3, 1) — strong deceleration for cards/tabs.
+- `--clay-ease-spring`: cubic-bezier(0.34, 1.56, 0.64, 1) — overshoot spring for micro-interactions.
+
+**Applied rules:**
 - Hero: video autoplay loop; h1/sub/CTAs staggered fade-up on load (0/100/200ms), GPU props only.
 - Bento: infinite horizontal marquee (translateX loop, ~40s duration, pause on hover, `prefers-reduced-motion` disables).
 - Tabs: panel crossfade (opacity + translateY 8px, 250ms ease-out).
-- Scroll reveal: IntersectionObserver, fade-up 24px → 0, 700ms cubic-bezier(0.22,1,0.36,1), once per element, threshold 0.15.
+- Scroll reveal: IntersectionObserver, fade-up 24px → 0, 700ms `--clay-ease-out`, once per element, threshold 0.15.
 - Band videos: autoplay muted loop playsinline, `preload="metadata"`.
 - Hover: cards lift translateY(-4px) + soft shadow; buttons translateY(-1px). No other hover decoration.
 - Never animate layout properties (width/height/top/left).
@@ -100,37 +106,62 @@ Component voltage comes from **saturated single-color feature cards** in a 6-col
 
 ## Colors
 
-### Brand & Accent
-- **Primary** (`{colors.primary}` — #0a0a0a): All primary CTAs, h1/h2 ink type. Near-black with slight warmth.
-- **Brand Pink** (`{colors.brand-pink}` — #ff4d8b): Hot-pink feature card surface. Sequencer / outbound feature pages.
-- **Brand Teal** (`{colors.brand-teal}` — #1a3a3a): Deep teal-green feature card. Often the featured pricing tier.
-- **Brand Lavender** (`{colors.brand-lavender}` — #b8a4ed): Soft lavender feature card.
-- **Brand Peach** (`{colors.brand-peach}` — #ffb084): Warm peach feature card.
-- **Brand Ochre** (`{colors.brand-ochre}` — #e8b94a): Mustard / ochre feature card and illustration accents.
-- **Brand Mint** (`{colors.brand-mint}` — #a4d4c5): Mint accent on illustrations and small badges.
-- **Brand Coral** (`{colors.brand-coral}` — #ff6b5a): Coral accent for highlights.
+All color tokens are defined as `--clay-*` CSS custom properties in `app/globals.css`.
 
-### Surface
-- **Canvas** (`{colors.canvas}` — #fffaf0): The default page floor. Cream-tinted white.
-- **Surface Soft** (`{colors.surface-soft}` — #faf5e8): Footer and CTA-band background.
-- **Surface Card** (`{colors.surface-card}` — #f5f0e0): Cream feature cards, testimonial cards.
-- **Surface Strong** (`{colors.surface-strong}` — #ebe6d6): Stronger cream for emphasized bands.
-- **Surface Dark** (`{colors.surface-dark}` — #0a1a1a): Dark teal-tinted near-black for occasional dark cards (rare).
-- **Surface Dark Elevated** (`{colors.surface-dark-elevated}` — #1a2a2a): Elevated dark cards.
-- **Hairline** (`{colors.hairline}` — #e5e5e5): 1px borders on cards and inputs.
+### Brand & Accent
+- **Primary / Ink** (`--clay-primary`, `--clay-ink` — #0a0a0a): All primary CTAs, h1/h2 ink type. Near-black.
+- **On Primary** (`--clay-on-primary` — #ffffff): Text on primary buttons.
+
+### Canvas & Surfaces
+- **Canvas** (`--clay-canvas` — #fffaf0): Default page floor. Cream-tinted white.
+- **Canvas Alt** (`--clay-canvas-alt` — #f9f8f5): Alternative canvas for rhythm changes.
+- **Surface Card** (`--clay-surface-card` — #ffffff): Feature cards, testimonial cards. True white (the cream canvas handles warmth).
+- **Surface Soft** (`--clay-surface-soft` — #faf6ee): Footer, CTA-band, soft bands.
+- **Surface Elevated** (`--clay-surface-elevated` — #ffffff): Elevated/overlay surfaces (modals, dropdowns).
+- **Surface Dark** (`--clay-surface-dark` — #0e1217): Near-black dark band surface.
+- **Surface Dark Elevated** (`--clay-surface-dark-elevated` — #181f26): Elevated dark surface with minimal lift.
+
+### Borders
+- **Hairline** (`--clay-hairline` — #e6dfd3): 1px borders on cards, inputs, dividers. Warm sand.
+- **Border Subtle** (`--clay-border-subtle` — rgba(209, 205, 199, 0.45)): Subtle dividers and separators.
+- **Border Strong** (`--clay-border-strong` — rgba(10, 10, 10, 0.12)): Stronger borders for focused containers.
 
 ### Text
-- **Ink** (`{colors.ink}` — #0a0a0a): Headlines and primary text.
-- **Body Strong** (`{colors.body-strong}` — #1a1a1a): Emphasized body, lead paragraphs.
-- **Body** (`{colors.body}` — #3a3a3a): Default running-text.
-- **Muted** (`{colors.muted}` — #6a6a6a): Sub-headings, breadcrumbs, footer body.
-- **Muted Soft** (`{colors.muted-soft}` — #9a9a9a): Captions, fine-print.
-- **On Primary / On Dark** (`{colors.on-primary}` — #ffffff): Text on primary buttons + dark feature cards (teal).
+- **Ink** (`--clay-ink` — #0a0a0a): Headlines and primary text.
+- **Body Strong** (`--clay-body-strong` — #171717): Emphasized body, lead paragraphs.
+- **Body** (`--clay-body` — #383838): Default running-text.
+- **Muted** (`--clay-muted` — #666666): Sub-headings, breadcrumbs, footer body.
+- **Muted Soft** (`--clay-muted-soft` — #8e8e8e): Captions, fine-print.
+
+### Category Badge Tokens
+Category pills/accents use dedicated text+bg pairs for the four GTM categories:
+
+| Token | Background | Text |
+|---|---|---|
+| `--clay-badge-data-*` | #eff6ff (blue) | #2563eb |
+| `--clay-badge-agents-*` | #fff7ed (orange) | #d97706 |
+| `--clay-badge-orchestration-*` | #f7fee7 (green) | #65a30d |
+| `--clay-badge-execution-*` | #fdf2f8 (pink) | #db2777 |
+
+### Band Tint Tokens
+Each of the four feature bands carries its own bg, text, and button color:
+
+| Band | Background | Text | Button |
+|---|---|---|---|
+| Discovery (blue) | `--band-blue-bg` #eaf2fb | #001433 | #1a6dff |
+| Seeding (orange) | `--band-orange-bg` #fdf0e4 | #381005 | #c45c0c |
+| Campaigns (green) | `--band-green-bg` #e6f4ea | #053219 | #0d7a3b |
+| Amplification (pink) | `--band-pink-bg` #fce8f0 | #3c0a1e | #c21e6b |
+
+### Gradient Accents
+- `--clay-gradient-data`: linear-gradient(135deg, #2563eb → #3b82f6)
+- `--clay-gradient-agents`: linear-gradient(135deg, #d97706 → #f59e0b)
+- `--clay-gradient-orchestration`: linear-gradient(135deg, #65a30d → #84cc16)
+- `--clay-gradient-execution`: linear-gradient(135deg, #db2777 → #f43f5e)
+- `--clay-gradient-hero`: linear-gradient(180deg, #0b4c37 → #083c2c)
 
 ### Semantic
-- **Success** (`{colors.success}` — #22c55e): Success states.
-- **Warning** (`{colors.warning}` — #f59e0b): Warning callouts.
-- **Error** (`{colors.error}` — #ef4444): Validation errors.
+- Error validation states: #ef4444 (via Tailwind `red-500`). Success/warning use standard Tailwind utilities directly (`green-500`, `amber-500`).
 
 ## Typography
 
@@ -141,19 +172,17 @@ The system runs **Plain Black** (a custom rounded display face) for headlines an
 
 | Token | Size | Weight | Line Height | Letter Spacing | Use |
 |---|---|---|---|---|---|
-| `{typography.display-xl}` | 72px | 500 | 1.0 | -2.5px | Homepage h1 ("Go to market with unique data") — Plain Black |
-| `{typography.display-lg}` | 56px | 500 | 1.05 | -2px | Section heads — Plain Black |
-| `{typography.display-md}` | 40px | 500 | 1.1 | -1px | Sub-section heads, product names |
-| `{typography.display-sm}` | 32px | 500 | 1.15 | -0.5px | CTA-band heads, feature card titles |
-| `{typography.title-lg}` | 24px | 600 | 1.3 | -0.3px | Pricing plan names, larger feature titles |
-| `{typography.title-md}` | 18px | 600 | 1.4 | 0 | Card titles, intro paragraphs |
-| `{typography.title-sm}` | 16px | 600 | 1.4 | 0 | Small card titles, list labels |
-| `{typography.body-md}` | 16px | 400 | 1.55 | 0 | Default running-text |
-| `{typography.body-sm}` | 14px | 400 | 1.55 | 0 | Footer body, fine-print |
-| `{typography.caption}` | 13px | 500 | 1.4 | 0 | Badge labels, captions |
-| `{typography.caption-uppercase}` | 12px | 600 | 1.4 | 1.5px | Section labels, "FEATURED" badges |
-| `{typography.button}` | 14px | 600 | 1.0 | 0 | Standard button labels |
-| `{typography.nav-link}` | 14px | 500 | 1.4 | 0 | Top-nav menu items |
+| `--clay-display-xl` | 76px | 500 | 1.0 | -2.5px | Homepage h1 — Plain Black |
+| `--clay-display-lg` | 56px | 500 | 1.05 | -2px | Section heads — Plain Black |
+| `--clay-display-md` | 40px | 500 | 1.1 | -1px | Sub-section heads, product names |
+| `--clay-display-sm` | 32px | 500 | 1.15 | -0.5px | CTA-band heads, feature card titles |
+| `--clay-title-lg` | 24px | 600 | 1.3 | -0.3px | Pricing plan names, larger feature titles |
+| `--clay-title-md` | 18px | 600 | 1.4 | 0 | Card titles, intro paragraphs |
+| `--clay-title-sm` | 16px | 600 | 1.4 | 0 | Small card titles, list labels |
+| `--clay-body-lg` | 18px | 400 | 1.55 | 0 | Lead paragraphs, intro text |
+| `--clay-body-md` | 16px | 400 | 1.55 | 0 | Default running-text |
+| `--clay-body-sm` | 14px | 400 | 1.55 | 0 | Footer body, fine-print |
+| `--clay-caption` | 12px | 500 | 1.4 | 0 | Badge labels, captions |
 
 ### Principles
 Plain Black at weight 500 + negative letter-spacing IS the brand voice. Going to weight 700 reads as bombastic; the rounded character of the typeface adds warmth that bolder weight would flatten.
@@ -185,9 +214,9 @@ Clay uses generous whitespace around big rounded display headlines and saturated
 | Level | Treatment | Use |
 |---|---|---|
 | Flat | No shadow, no border | Body sections, top nav, hero |
-| Soft hairline | 1px `{colors.hairline}` border | Inputs, small content cards |
+| Soft hairline | 1px `var(--clay-hairline)` border | Inputs, small content cards |
 | Saturated card | Brand pink/teal/lavender/peach/ochre fill — no shadow | Feature cards |
-| Cream card | `{colors.surface-card}` background — no shadow | Testimonial, secondary cards |
+| Cream card | `var(--clay-surface-card)` background — no shadow | Testimonial, secondary cards |
 | Subtle drop shadow | Faint shadow at low alpha | Hover-elevated states (rare) |
 
 The system uses no heavy shadows. Depth comes from the saturated color contrast between cream canvas and bright feature cards.
@@ -198,17 +227,19 @@ The system uses no heavy shadows. Depth comes from the saturated color contrast 
 
 ## Shapes
 
+All radii are defined as `--clay-rounded-*` CSS custom properties in `app/globals.css`. Components use either the CSS variable (via inline style, e.g. `WaitlistModal`) or Tailwind radius classes (`rounded-xl`, `rounded-2xl`) — the CSS variables define the design system's intended values.
+
 ### Border Radius Scale
 
 | Token | Value | Use |
 |---|---|---|
-| `{rounded.xs}` | 6px | Small badges, dropdown items |
-| `{rounded.sm}` | 8px | Small buttons, hairline-border accent |
-| `{rounded.md}` | 12px | Standard CTA buttons, text inputs |
-| `{rounded.lg}` | 16px | Content cards, testimonial cards, pricing tiers |
-| `{rounded.xl}` | 24px | Feature cards (the saturated brand-color cards) |
-| `{rounded.pill}` | 9999px | Category tabs, badge pills |
-| `{rounded.full}` | 9999px / 50% | Avatars, icon buttons |
+| `--clay-rounded-xs` | 6px | Small badges, dropdown items |
+| `--clay-rounded-sm` | 10px | Small buttons, hairline-border accent |
+| `--clay-rounded-md` | 14px | Standard CTA buttons, text inputs, modals |
+| `--clay-rounded-lg` | 20px | Content cards, testimonial cards, pricing tiers |
+| `--clay-rounded-xl` | 28px | Feature cards (the saturated brand-color bands) |
+| `--clay-rounded-2xl` | 36px | Large containers, hero sections |
+| `--clay-rounded-full` | 9999px | Pills, avatars, icon buttons |
 
 ## Components
 
@@ -218,15 +249,17 @@ The system uses no heavy shadows. Depth comes from the saturated color contrast 
 
 ### Buttons
 
-**`button-primary`** — Background `{colors.primary}` (near-black), text `{colors.on-primary}` (white), type `{typography.button}` (Inter 14px / 600), padding 12px × 20px, height 44px, rounded `{rounded.md}` (12px).
+Buttons are implemented with Tailwind utility classes. The primary variables `--clay-primary` (#0a0a0a) and `--clay-rounded-md` (14px) are the design source of truth; the actual components may use Tailwind's `rounded-xl` (12px) for buttons.
 
-**`button-secondary`** — Cream button with hairline outline. Background `{colors.canvas}`, text `{colors.ink}`, 1px hairline border.
+**`button-primary`** — Background `var(--clay-primary)` (#0a0a0a, near-black), text `var(--clay-on-primary)` (white), Inter 14px / 500–600, padding px-5 py-2.5 (20px × 10px), height ~40px. Radius: `rounded-xl` (12px) via Tailwind in `ClayHero`, or `var(--clay-rounded-md)` (14px) via inline style in `WaitlistModal`. No border.
 
-**`button-on-color`** — White button used over saturated brand-color feature cards. Same shape as primary but inverted (white background, ink text).
+**`button-secondary`** — Background `bg-[#f3f2ed]` (cream), text `text-[#0a0a0a]` (ink), same shape and padding as primary. Used for "Get a demo" and similar secondary CTAs.
 
-**`button-text-link`** — Inline text button, no background. Used for "Sign in" and inline link CTAs.
+**`button-on-color`** — White button used over saturated brand-color feature bands. Background white, text `--clay-ink`, `rounded-xl` (12px). Used inside the four tinted feature bands (discovery/seeding/campaigns/amplification) with button color matching the `--band-*-btn` tint per band.
 
-**`text-link`** — Inline body links in `{colors.ink}` with underline.
+**`button-text-link`** — Inline text button, no background. Used for "Sign in" and inline link CTAs. Underline on hover.
+
+**`text-link`** — Inline body links in `var(--clay-ink)` (#0a0a0a) with underline.
 
 ### Cards & Containers
 

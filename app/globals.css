@@ -22,6 +22,7 @@
 
   /* ── Typography & Ink ── */
   --clay-ink: #0a0a0a;
+  --clay-primary: #0a0a0a;
   --clay-body-strong: #171717;
   --clay-body: #383838;
   --clay-muted: #666666;
@@ -698,6 +699,11 @@ body {
   section {
     padding-left: var(--clay-spacing-md) !important;
     padding-right: var(--clay-spacing-md) !important;
+  }
+
+  section.kaplun-hero-no-padding {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   .kaplun-nav {
