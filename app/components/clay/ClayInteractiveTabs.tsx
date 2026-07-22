@@ -154,8 +154,8 @@ export function ClayInteractiveTabs() {
         })}
       </div>
 
-      {/* Interactive Feature Demo Workspace Card */}
-      <div className="bg-[#faf6ee] rounded-3xl border border-[rgba(209,205,199,0.5)] p-6 sm:p-10 shadow-sm transition-all duration-300">
+      {/* Interactive Feature Demo Workspace Card — keyed so the panel re-mounts and crossfades on tab change */}
+      <div key={activeTabId} className="bg-[#faf6ee] rounded-3xl border border-[rgba(209,205,199,0.5)] p-6 sm:p-10 shadow-sm kaplun-panel-enter">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left info box */}
           <div className="lg:col-span-5 space-y-6">

@@ -90,6 +90,11 @@
   --clay-rounded-xl: 28px;
   --clay-rounded-2xl: 36px;
   --clay-rounded-full: 9999px;
+
+  /* ── Motion ── */
+  --clay-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --clay-ease-deck: cubic-bezier(0.16, 1, 0.3, 1);
+  --clay-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* ── Smooth scroll & base ── */
@@ -331,6 +336,32 @@ body {
   transform: scale(1.05);
 }
 
+/* ── Ambient motion: slow hero zoom + levitating artifacts ── */
+@keyframes kaplunKenBurns {
+  from { transform: scale(1); }
+  to { transform: scale(1.07); }
+}
+.kaplun-kenburns {
+  animation: kaplunKenBurns 26s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes kaplunFloat {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
+.kaplun-float {
+  animation: kaplunFloat 6s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kaplun-kenburns,
+  .kaplun-float {
+    animation: none;
+  }
+}
+
 /* ── Scroll-reveal fade-up animation ── */
 .kaplun-reveal {
   opacity: 0;
@@ -374,6 +405,107 @@ body {
     animation: none;
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ── Mount entrances (fire once on element insertion) ── */
+@keyframes kaplunPanelIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.kaplun-panel-enter {
+  animation: kaplunPanelIn 250ms var(--clay-ease-out);
+}
+
+@keyframes kaplunPop {
+  from { transform: scale(0.6); }
+  to { transform: scale(1); }
+}
+
+.kaplun-pop-in {
+  display: inline-block;
+  animation: kaplunPop 350ms var(--clay-ease-spring);
+}
+
+.kaplun-content-enter {
+  animation: kaplunFadeIn 200ms ease-out;
+}
+
+/* ── Dialog/drawer transitions — @starting-style drives entry, class toggle drives exit ── */
+.kaplun-modal-backdrop {
+  transition: opacity 200ms ease-out;
+}
+.kaplun-modal-dialog {
+  transition: opacity 250ms var(--clay-ease-deck), transform 250ms var(--clay-ease-deck);
+}
+.kaplun-drawer {
+  transition: opacity 300ms var(--clay-ease-deck), transform 300ms var(--clay-ease-deck);
+}
+
+.kaplun-modal-backdrop.kaplun-hidden {
+  opacity: 0;
+}
+.kaplun-modal-dialog.kaplun-hidden {
+  opacity: 0;
+  transform: scale(0.96) translateY(-8px);
+}
+.kaplun-drawer.kaplun-hidden {
+  opacity: 0;
+  transform: translateY(-16px);
+}
+
+@starting-style {
+  .kaplun-modal-backdrop {
+    opacity: 0;
+  }
+  .kaplun-modal-dialog {
+    opacity: 0;
+    transform: scale(0.96) translateY(-8px);
+  }
+  .kaplun-drawer {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+}
+
+/* ── Card hover lift — fine pointers only, so touch never sticks ── */
+@media (hover: hover) and (pointer: fine) {
+  .kaplun-card-lift {
+    transition: transform 350ms var(--clay-ease-out), box-shadow 350ms var(--clay-ease-out);
+  }
+  .kaplun-card-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kaplun-panel-enter {
+    animation: kaplunFadeIn 200ms ease-out;
+  }
+  .kaplun-pop-in {
+    animation: none;
+  }
+  .kaplun-card-lift {
+    transition: box-shadow 350ms var(--clay-ease-out);
+  }
+  .kaplun-card-lift:hover {
+    transform: none;
+  }
+  .kaplun-modal-dialog,
+  .kaplun-drawer {
+    transition-property: opacity;
+  }
+  .kaplun-modal-dialog.kaplun-hidden,
+  .kaplun-drawer.kaplun-hidden {
+    transform: none;
+  }
+  @starting-style {
+    .kaplun-modal-dialog,
+    .kaplun-drawer {
+      transform: none;
+    }
   }
 }
 

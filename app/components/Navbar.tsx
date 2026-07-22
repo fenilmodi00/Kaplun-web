@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Logo } from "./Logo";
 
 interface NavbarProps {
@@ -10,6 +10,8 @@ interface NavbarProps {
 export function Navbar({ onOpenWaitlist }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [drawerMounted, setDrawerMounted] = useState(false);
+  const drawerTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,8 +21,22 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const setDrawer = (open: boolean) => {
+    if (drawerTimer.current) {
+      clearTimeout(drawerTimer.current);
+      drawerTimer.current = null;
+    }
+    if (open) {
+      setDrawerMounted(true);
+      setMobileMenuOpen(true);
+    } else {
+      setMobileMenuOpen(false);
+      drawerTimer.current = setTimeout(() => setDrawerMounted(false), 320);
+    }
+  };
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    setMobileMenuOpen(false);
+    setDrawer(false);
     if (href.startsWith("#")) {
       e.preventDefault();
       const targetEl = document.querySelector(href);
@@ -32,9 +48,9 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-300">
-      {/* 85% width top navbar container attached flush to the top of screen */}
+      {/* 98% width top navbar container attached flush to the top of screen to leave 1% margin on each side */}
       <div
-        className={`pointer-events-auto w-[94%] sm:w-[88%] lg:w-[85%] max-w-6xl h-[58.5px] bg-white/98 backdrop-blur-md border-b border-x border-[rgba(209,205,199,0.6)] rounded-b-2xl sm:rounded-b-3xl rounded-t-none px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${
+        className={`pointer-events-auto w-[98%] max-w-[1600px] h-[58.5px] bg-white/98 backdrop-blur-md border-b border-x border-[rgba(209,205,199,0.6)] rounded-b-2xl sm:rounded-b-3xl rounded-t-none px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${
           isScrolled ? "shadow-md bg-white border-neutral-300" : "shadow-none"
         }`}
       >
@@ -44,7 +60,7 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
           className="flex items-center gap-2 text-lg font-bold text-[#0a0a0a] tracking-tight no-underline hover:opacity-90 transition-opacity"
         >
           <Logo size={24} />
-          <span className="font-semibold text-lg tracking-tight">Kaplun</span>
+          <span className="font-ibold text-lg tracking-tight">Kaplun</span>
         </a>
 
         {/* Desktop Navigation Links */}
@@ -85,10 +101,10 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
           <button
             type="button"
             onClick={onOpenWaitlist}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-neutral-700 hover:bg-[#f4f3f0] transition-colors cursor-pointer"
+            className="flex items-center gap-2 h-[38px] px-3.5 rounded-[12px] text-[13.92px] font-medium tracking-[-0.14px] text-neutral-700 hover:bg-[#f4f3f0] transition-all duration-200 hover:-translate-y-[1px] active:translate-y-0 cursor-pointer"
             title="Search creator database"
           >
-            <span className="inline-flex items-center justify-center px-1.5 py-0.5 text-[11px] font-mono border border-neutral-200 rounded text-neutral-600 bg-neutral-50">
+            <span className="inline-flex items-center justify-center px-1.5 py-0.5 text-[11px] font-mono border border-neutral-200 rounded text-neutral-600 bg-white">
               ⌘ K
             </span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="text-neutral-500">
@@ -104,7 +120,7 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
           <button
             type="button"
             onClick={onOpenWaitlist}
-            className="text-xs font-semibold text-[#0a0a0a] hover:text-[#7b7974] px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer"
+            className="text-[13.92px] font-medium tracking-[-0.14px] text-[#0a0a0a] hover:text-[#7b7974] px-3 py-2 transition-all duration-200 hover:-translate-y-[1px] active:translate-y-0 cursor-pointer"
           >
             Log in
           </button>
@@ -113,7 +129,7 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
           <button
             type="button"
             onClick={onOpenWaitlist}
-            className="px-3.5 py-1.5 rounded-xl bg-[#f3f2ed] hover:bg-[#dad4c8] text-xs font-semibold text-[#0a0a0a] transition-all cursor-pointer"
+            className="bg-[#f3f2ed] hover:bg-[#eae8df] text-[#0a0a0a] border-[0.8px] border-transparent h-[38px] px-4 rounded-[12px] text-[13.92px] font-medium tracking-[-0.14px] flex items-center justify-center transition-all duration-200 hover:-translate-y-[1px] active:translate-y-0 cursor-pointer"
           >
             Get a demo
           </button>
@@ -122,7 +138,7 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
           <button
             type="button"
             onClick={onOpenWaitlist}
-            className="px-3.5 py-1.5 rounded-xl bg-[#000000] text-white text-xs font-semibold hover:bg-[#282c35] active:scale-95 transition-all shadow-xs cursor-pointer"
+            className="bg-[#0a0a0a] text-white hover:bg-neutral-800 border-[0.8px] border-transparent h-[38px] px-4 rounded-[12px] text-[13.92px] font-medium tracking-[-0.14px] flex items-center justify-center transition-all duration-200 hover:-translate-y-[1px] active:translate-y-0 cursor-pointer"
           >
             Start free trial
           </button>
@@ -132,7 +148,7 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
         <div className="flex md:hidden items-center">
           <button
             type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            onClick={() => setDrawer(!mobileMenuOpen)}
             className="p-2 text-[#0a0a0a] hover:bg-[#f4f3f0] rounded-xl transition-colors"
             aria-label="Toggle navigation"
           >
@@ -153,10 +169,16 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
       </div>
 
       {/* Mobile Drawer Overlay */}
-      {mobileMenuOpen && (
+      {drawerMounted && (
         <div
-          className="fixed inset-0 top-[58.5px] z-40 bg-white/98 backdrop-blur-md p-6 space-y-6 md:hidden overflow-y-auto pointer-events-auto border-b border-neutral-200 shadow-xl"
-          onClick={() => setMobileMenuOpen(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation menu"
+          className={`fixed inset-0 top-[58.5px] z-40 bg-white/98 backdrop-blur-md p-6 space-y-6 md:hidden overflow-y-auto pointer-events-auto border-b border-neutral-200 shadow-xl kaplun-drawer${
+            mobileMenuOpen ? "" : " kaplun-hidden"
+          }`}
+          onClick={() => setDrawer(false)}
+          onKeyDown={(e) => { if (e.key === "Escape") setDrawer(false); }}
         >
           <div className="space-y-3 text-base font-semibold text-[#0a0a0a]">
             <a
@@ -193,7 +215,7 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
             <button
               type="button"
               onClick={() => {
-                setMobileMenuOpen(false);
+                setDrawer(false);
                 onOpenWaitlist?.();
               }}
               className="w-full py-3.5 rounded-xl bg-[#000000] text-white font-semibold text-sm hover:bg-[#282c35] transition-colors shadow-md"

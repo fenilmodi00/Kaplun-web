@@ -36,7 +36,7 @@ export function ClayCaseStudies({ onOpenWaitlist }: ClayCaseStudiesProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Nūrio card */}
-        <div className="bg-[#faf6ee] rounded-3xl border border-[rgba(209,205,199,0.5)] p-8 space-y-4 hover:shadow-md transition-shadow">
+        <div className="bg-[#faf6ee] rounded-3xl border border-[rgba(209,205,199,0.5)] p-8 space-y-4 kaplun-card-lift">
           <p className="text-3xl font-bold text-[#0a0a0a]">+212%</p>
           <p className="text-sm text-[#666666]">creator-sourced revenue</p>
           <p className="text-sm text-[#383838] leading-relaxed italic">
@@ -79,7 +79,7 @@ export function ClayCaseStudies({ onOpenWaitlist }: ClayCaseStudiesProps) {
         </div>
 
         {/* Halcyon card */}
-        <div className="bg-[#faf6ee] rounded-3xl border border-[rgba(209,205,199,0.5)] p-8 space-y-4 hover:shadow-md transition-shadow">
+        <div className="bg-[#faf6ee] rounded-3xl border border-[rgba(209,205,199,0.5)] p-8 space-y-4 kaplun-card-lift">
           <p className="text-3xl font-bold text-[#0a0a0a]">40+</p>
           <p className="text-sm text-[#666666]">live campaigns managed</p>
           <p className="text-sm text-[#383838] leading-relaxed italic">
