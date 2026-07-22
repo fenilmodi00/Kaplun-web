@@ -3,18 +3,18 @@
 import { useRef, useState } from "react";
 import { WaitlistModal } from "./components/WaitlistModal";
 import { Navbar } from "./components/Navbar";
-import { ClayHero } from "./components/clay/ClayHero";
-import { ClayLogoCloud } from "./components/clay/ClayLogoCloud";
-import { ClayProofBento } from "./components/clay/ClayProofBento";
-import { ClayInteractiveTabs } from "./components/clay/ClayInteractiveTabs";
-import { ClayAiSearchWidget } from "./components/clay/ClayAiSearchWidget";
-import { ClayFeatureBands } from "./components/clay/ClayFeatureBands";
-import { ClayInfraBand } from "./components/clay/ClayInfraBand";
-import { ClayCaseStudies } from "./components/clay/ClayCaseStudies";
-import { ClayResourcesGrid } from "./components/clay/ClayResourcesGrid";
-import { ClayCtaBand } from "./components/clay/ClayCtaBand";
-import { ClayFooter } from "./components/clay/ClayFooter";
-import { ScrollReveal } from "./components/clay/ScrollReveal";
+import { Hero } from "./components/Hero";
+import { LogoCloud } from "./components/LogoCloud";
+import { ProofBento } from "./components/ProofBento";
+import { InteractiveTabs } from "./components/InteractiveTabs";
+import { AiSearchWidget } from "./components/AiSearchWidget";
+import { FeatureBands } from "./components/FeatureBands";
+import { InfraBand } from "./components/InfraBand";
+import { CaseStudies } from "./components/CaseStudies";
+import { ResourcesGrid } from "./components/ResourcesGrid";
+import { CtaBand } from "./components/CtaBand";
+import { Footer } from "./components/Footer";
+import { ScrollReveal } from "./components/ScrollReveal";
 
 export default function Home() {
   const [waitlistOpen, setWaitlistOpen] = useState(false);
@@ -41,49 +41,49 @@ export default function Home() {
       <Navbar onOpenWaitlist={openWaitlist} />
 
       {/* 2. Hero */}
-      <ClayHero onOpenWaitlist={openWaitlist} />
+      <Hero onOpenWaitlist={openWaitlist} />
 
       {/* 3. Social proof + bento marquee wrapped in a rounded overlapping container */}
       <div className="relative z-10 mt-[-6vh] sm:-mt-16 bg-[#fffaf0] rounded-t-[32px] sm:rounded-t-[48px] border-t border-[rgba(209,205,199,0.3)] shadow-[0_-12px_32px_rgba(0,0,0,0.02)]">
-        <ClayLogoCloud />
-        <ClayProofBento />
+        <LogoCloud />
+        <ProofBento />
       </div>
 
       {/* 4. Services tabs */}
       <ScrollReveal>
-        <ClayInteractiveTabs />
+        <InteractiveTabs />
       </ScrollReveal>
 
       {/* 5. AI prompt widget */}
       <ScrollReveal>
-        <ClayAiSearchWidget />
+        <AiSearchWidget />
       </ScrollReveal>
 
       {/* 6. 4 stacked tinted feature bands */}
       <ScrollReveal>
-        <ClayFeatureBands onOpenWaitlist={openWaitlist} />
+        <FeatureBands onOpenWaitlist={openWaitlist} />
       </ScrollReveal>
 
       {/* 7. Infrastructure band */}
       <ScrollReveal>
-        <ClayInfraBand onOpenWaitlist={openWaitlist} />
+        <InfraBand onOpenWaitlist={openWaitlist} />
       </ScrollReveal>
 
       {/* 8. Case studies */}
       <ScrollReveal>
-        <ClayCaseStudies onOpenWaitlist={openWaitlist} />
+        <CaseStudies onOpenWaitlist={openWaitlist} />
       </ScrollReveal>
 
       {/* 9. Resources grid — handles its own per-card reveal */}
-      <ClayResourcesGrid />
+      <ResourcesGrid />
 
       {/* 10. CTA band */}
       <ScrollReveal>
-        <ClayCtaBand onOpenWaitlist={openWaitlist} />
+        <CtaBand onOpenWaitlist={openWaitlist} />
       </ScrollReveal>
 
       {/* 11. Footer */}
-      <ClayFooter />
+      <Footer />
 
       {/* Waitlist Modal — stays mounted through the exit transition */}
       <WaitlistModal open={waitlistOpen} mounted={waitlistMounted} onClose={closeWaitlist} />

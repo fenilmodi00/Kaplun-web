@@ -2,8 +2,8 @@
 
 import { useState, useRef } from "react";
 import { Navbar } from "../components/Navbar";
-import { ClayFooter } from "../components/clay/ClayFooter";
-import { ScrollReveal } from "../components/clay/ScrollReveal";
+import { Footer } from "../components/Footer";
+import { ScrollReveal } from "../components/ScrollReveal";
 import { WaitlistModal } from "../components/WaitlistModal";
 
 const sections = [
@@ -435,7 +435,7 @@ export default function PrivacyPolicyPage() {
       </section>
 
       {/* Footer */}
-      <ClayFooter />
+      <Footer />
 
       <WaitlistModal open={waitlistOpen} mounted={waitlistMounted} onClose={closeWaitlist} />
     </main>

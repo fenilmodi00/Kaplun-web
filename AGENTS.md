@@ -61,13 +61,13 @@ public/
 ## Running & Building
 ```bash
 # Dev server (port 3000, Turbopack)
-npm run dev
+bun run dev
 
 # Production build
-npm run build
+bun run build
 
 # Lint
-npm run lint
+bun run lint
 ```
 
 ## When Working Here

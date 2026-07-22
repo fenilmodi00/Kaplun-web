@@ -85,8 +85,8 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
               href="/"
               className="flex items-center gap-2 text-lg font-bold text-[#0a0a0a] tracking-tight no-underline hover:opacity-90 transition-opacity"
             >
-              <Logo size={24} />
-              <span className="font-semibold text-lg tracking-tight">Kaplun</span>
+            <Logo size={24} />
+            <span className="font-bold text-2xl tracking-tight">Kaplun</span>
             </a>
 
             {/* Desktop Navigation Links */}

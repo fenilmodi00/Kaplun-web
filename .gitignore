@@ -10,6 +10,12 @@
 !.yarn/releases
 !.yarn/versions
 
+# lock files
+bun.lock
+package-lock.json
+yarn.lock
+pbun-lock.yaml
+
 # testing
 /coverage
 
@@ -25,10 +31,10 @@
 *.pem
 
 # debug
-npm-debug.log*
+bun-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
+.pbun-debug.log*
 
 # env files (can opt-in for committing if needed)
 .env*
@@ -39,10 +45,15 @@ yarn-error.log*
 # temp and local agent files
 .omo/
 .playwright-mcp/
+.codegraph/
 *.log
+
+# reference files (not for production)
+*.jpeg
+*.jpg
+*.png
+!public/**
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-.vercel
