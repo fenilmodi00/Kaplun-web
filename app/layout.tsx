@@ -61,14 +61,6 @@ export const metadata: Metadata = {
     siteName: "Kaplun",
     images: [
       {
-        url: "https://kaplun.tech/og-image.jpg",
-        secureUrl: "https://kaplun.tech/og-image.jpg",
-        width: 1200,
-        height: 630,
-        type: "image/jpeg",
-        alt: "Kaplun — Build systems to grow with creators",
-      },
-      {
         url: "https://kaplun.tech/og-image.png",
         secureUrl: "https://kaplun.tech/og-image.png",
         width: 1200,
@@ -87,7 +79,7 @@ export const metadata: Metadata = {
       "Infrastructure to source micro-influencers, launch seeding programs, and scale creator-led growth.",
     images: [
       {
-        url: "https://kaplun.tech/twitter-image.jpg",
+        url: "https://kaplun.tech/twitter-image.png",
         alt: "Kaplun — Build systems to grow with creators",
         width: 1200,
         height: 630,

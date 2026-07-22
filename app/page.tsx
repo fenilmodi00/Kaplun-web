@@ -1,20 +1,22 @@
 "use client";
 
 import { useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { WaitlistModal } from "./components/WaitlistModal";
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
 import { LogoCloud } from "./components/LogoCloud";
 import { ProofBento } from "./components/ProofBento";
-import { InteractiveTabs } from "./components/InteractiveTabs";
-import { AiSearchWidget } from "./components/AiSearchWidget";
-import { FeatureBands } from "./components/FeatureBands";
-import { InfraBand } from "./components/InfraBand";
-import { CaseStudies } from "./components/CaseStudies";
-import { ResourcesGrid } from "./components/ResourcesGrid";
-import { CtaBand } from "./components/CtaBand";
-import { Footer } from "./components/Footer";
 import { ScrollReveal } from "./components/ScrollReveal";
+
+const InteractiveTabs = dynamic(() => import("./components/InteractiveTabs").then(m => ({ default: m.InteractiveTabs })), { ssr: false });
+const AiSearchWidget = dynamic(() => import("./components/AiSearchWidget").then(m => ({ default: m.AiSearchWidget })), { ssr: false });
+const FeatureBands = dynamic(() => import("./components/FeatureBands").then(m => ({ default: m.FeatureBands })), { ssr: false });
+const InfraBand = dynamic(() => import("./components/InfraBand").then(m => ({ default: m.InfraBand })), { ssr: false });
+const CaseStudies = dynamic(() => import("./components/CaseStudies").then(m => ({ default: m.CaseStudies })), { ssr: false });
+const ResourcesGrid = dynamic(() => import("./components/ResourcesGrid").then(m => ({ default: m.ResourcesGrid })), { ssr: false });
+const CtaBand = dynamic(() => import("./components/CtaBand").then(m => ({ default: m.CtaBand })), { ssr: false });
+const Footer = dynamic(() => import("./components/Footer").then(m => ({ default: m.Footer })), { ssr: false });
 
 export default function Home() {
   const [waitlistOpen, setWaitlistOpen] = useState(false);

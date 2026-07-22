@@ -23,8 +23,8 @@ export function Hero({ onOpenWaitlist }: ClayHeroProps) {
           muted
           loop
           playsInline
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover object-top kaplun-kenburns"
+          preload="metadata"
+          className="absolute inset-0 w-full h-full object-cover object-top"
         >
           <source src="/media/homemain.mp4" type="video/mp4" />
         </video>
