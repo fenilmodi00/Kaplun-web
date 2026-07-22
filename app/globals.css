@@ -38,6 +38,20 @@
   --clay-badge-execution-bg: #fdf2f8;
   --clay-badge-execution-text: #db2777;
 
+  /* ── Band Tint Tokens ── */
+  --band-blue-bg: #eaf2fb;
+  --band-blue-text: rgb(0, 20, 51);
+  --band-blue-btn: #1a6dff;
+  --band-orange-bg: #fdf0e4;
+  --band-orange-text: rgb(56, 16, 5);
+  --band-orange-btn: #c45c0c;
+  --band-green-bg: #e6f4ea;
+  --band-green-text: rgb(5, 50, 25);
+  --band-green-btn: #0d7a3b;
+  --band-pink-bg: #fce8f0;
+  --band-pink-text: rgb(60, 10, 30);
+  --band-pink-btn: #c21e6b;
+
   /* ── Brand Gradient Accents ── */
   --clay-gradient-data: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
   --clay-gradient-agents: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
@@ -331,6 +345,33 @@ body {
 
 @keyframes kaplunFadeUp {
   to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Marquee ── */
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.kaplun-marquee {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 40s linear infinite;
+}
+
+.kaplun-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kaplun-marquee {
+    animation: none;
+  }
+  .kaplun-reveal {
+    animation: none;
     opacity: 1;
     transform: translateY(0);
   }

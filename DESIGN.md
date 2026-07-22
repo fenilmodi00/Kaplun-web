@@ -1,5 +1,84 @@
 # Clay.com Design System & Specifications
 
+## 0. Runtime Verification (extracted live from clay.com via Playwright, 2026-07-22)
+
+This section overrides older reference material below wherever they conflict. Extracted from the live site with getComputedStyle + full-page screenshot + DOM snapshot.
+
+### 0.1 Verified typography (current site)
+
+- **Font family (everything):** `Roobertvf` (variable), fallback `Arial, sans-serif`. Roobert is licensed — our free substitute is **Nunito** (Google Fonts) for display headlines (rounded terminals, same warmth) and **Inter** for body/UI. Display substitute: Nunito 700 with matching negative tracking.
+- **h1 (hero):** 88px / weight 575 / line-height 1.0 / letter-spacing -3.52px / color `rgb(254,253,251)` (near-white — hero is DARK).
+- **h2 (section):** 72px / 500 / -2.16px / black. Secondary h2 (CTA band): 44px / 500 / -0.88px / line-height 1.1.
+- **h3 (band titles):** 48px / 500 / -1.92px / line-height 1.0. Color is TINTED per band: black on white, `rgb(0,20,51)` navy on blue band, `rgb(56,16,5)` brown on orange band (dark-tinted text matching band hue).
+- **Buttons:** font 13.92px / 500 / ls -0.14px / radius 12px / padding 8px 16px / height ~38.5px / border 0.8px. Primary = black bg white text; secondary = `#f3f2ed` bg black text.
+
+### 0.2 Verified hero structure (BIGGEST DELTA from old clone)
+
+The hero is a **full-bleed dark green band** (`rgb(3,93,68)` = #035D44), containing:
+1. The claymation contraption video/scene across the top (wide 2:1 scene, green hills + blue sky).
+2. Bottom-left: near-white h1 "Build systems to grow revenue" (88px).
+3. Bottom-right: sub-paragraph (white) + two CTAs (primary black pill-ish rounded-12, secondary cream #f3f2ed).
+4. "Latest launch:" pill link above the h1.
+Nav sits on top: white/cream bar, fixed, ~85% width, rounded bottom corners, 58.6px tall.
+
+### 0.3 Verified section map (page order)
+
+1. **Nav** — logo left; Product/Use Cases/Solutions/Resources/Company/Pricing center; ⌘K, Log in, Get a demo, Start free trial right.
+2. **Hero** — dark green #035D44, video scene, h1 + sub + dual CTA.
+3. **Social proof** — cream band: "Trusted by more than 500,000+..." line with inline links, logo cloud (ramp, stripe, Figma, Uber, OpenAI…), then a **scrolling bento of stat/quote cards** (duplicated DOM ×3 = infinite marquee: Figma quote, OpenAI quote, +140% Intercom, 80%+ Vanta, Anthropic 3x, Rippling 2x, Verkada 3x, ElevenLabs +50%).
+4. **Tab section** — h2 "GTM engineers build on Clay" (72px black on white), sub "Find every account in your TAM in one place.", 7 pill tabs (TAM Sourcing, Automated Inbound, Lead Scoring, Automated Outbound, CRM Enrichment, Launch Ads, Rep Productivity), large product-UI panel below that swaps per tab (blue-tinted backdrop card).
+5. **AI prompt widget** — h3 "What do you want to build?" (48px) on cream, large input card with placeholder prompt, preset pills (Find people/company/jobs data), black submit.
+6. **4 tinted feature bands** — full-width rounded bands, each: small caps label chip, tinted 48px h3, paragraph, proof strip (2-3 logos + one customer stat sentence), CTA row (colored "Start free trial" button matching band hue + text link), claymation video/image on the right:
+   - DATA — light blue bg, navy text, blue button. ("Get data from the most complete data marketplace")
+   - AGENTS — light orange bg, brown text, orange button. ("Create agents who mimic your best reps")
+   - ORCHESTRATION — light green bg, dark-green text, green button. ("Orchestrate workflows across tools in real time")
+   - EXECUTION — light pink bg, maroon text, pink button. ("Launch new plays as fast as you have ideas")
+7. **Infrastructure band** — label "GTM INFRASTRUCTURE", h3 "Build systems that make reps more productive", chat-UI mock, Terrapinn stat card, cream CTA band card on white.
+8. **Case studies** — h3 "Hear from the teams that grow with Clay", 3 cards: Hex case card, video player card (3:30 customer video), Verkada EMEA card (image + "Read case study").
+9. **Resources grid** — h3 "Learn more about GTM engineering", 6 mixed cards (conference CTA, university card w/ claymation, livestream, 2 community stories w/ photos, careers card).
+10. **CTA band** — "Turn your growth ideas into reality today" (44px) + "Start for free today. No credit card required." + dual CTA, on white/cream.
+11. **Footer** — cream #faf5e8, 7 link columns (Use cases, Product, Blog, Resources, Company, Customers, Legal), big logo bottom-left, "Born in Brooklyn" + "©2026 Clay Labs Inc.", social icons bottom-right.
+
+### 0.4 Media asset map (local files in `public/media/`)
+
+| File | Spec | Content | Assignment |
+|---|---|---|---|
+| `hero-contraption.webm` (+ `.mp4` fallback 12.9MB) | 3000×1500, 17s | Claymation contraption on green hills under blue sky (funnel, pipe, magnifier, mailbox, bar chart) | **Hero video** — autoplay muted loop playsinline |
+| `magnifier.webm` | 1000×1000, 8s | Blue magnifying-glass contraption with red ball on cream | **Discovery (blue) band** visual |
+| `shapes-tower.webm` (+ `.mp4`) | 1920×1080, 6s | Colorful clay shapes balancing on pedestal, mascot characters on ladders, blue bg | **Case-study video card** preview loop |
+| (not copied) 73MB logo video | 1920×1080, 210s | Clay logo brand video | EXCLUDED — Clay trademark, never ship |
+
+### 0.5 Kaplun copy deck (micro-influencer agency — final copy)
+
+- **Hero pill:** "NEW: AI CREATOR MATCHING" → #services
+- **H1:** "Build systems to grow with creators"
+- **Hero sub:** "Infrastructure to source micro-influencers, launch seeding programs, and scale creator-led growth."
+- **CTAs:** "Join the waitlist" (primary → waitlist modal) · "Get a demo" (secondary → waitlist modal)
+- **Proof line:** "Trusted by 120+ DTC brands and consumer startups. Inspired by our customers. Built with love."
+- **Bento stats:** +184% creator-sourced revenue · 24h creator shortlists · 3.2x avg. ROAS on creator ads · 85% creator response rate · 500+ campaigns shipped · 40M+ creator-driven impressions. Quotes from 3 fictional founders (Nūrio, Bloom & Co., Velvet Skincare).
+- **Tabs (7):** Creator Sourcing · Product Seeding · Affiliates · UGC Content · Creator Ads · Whitelisting · Analytics. Panel per tab = styled product-UI mock (table/card fragments, no real screenshots).
+- **AI widget:** h3 "What creators do you want to source?" presets: "Find skincare creators" · "Find fitness creators" · "Find food creators".
+- **Bands:**
+  - DISCOVERY (blue) — "Source creators from the most complete influencer graph" — magnifier.webm — stat: "Nūrio cut creator discovery from 3 weeks to 2 days."
+  - SEEDING (orange) — "Run seeding programs that ship themselves" — stat: "Bloom & Co. seeded 1,200 creators in one quarter with a team of two."
+  - CAMPAIGNS (green) — "Orchestrate every campaign in one place" — stat: "Halcyon runs 40+ live campaigns without a single spreadsheet."
+  - AMPLIFICATION (pink) — "Turn winning posts into paid growth" — stat: "Velvet Skincare scaled creator ads to 3.8x ROAS."
+- **Infra band:** label "CREATOR INFRASTRUCTURE" — "Build systems that make your team more productive" — chat mock prompt: "Which skincare micro-creators have >8% engagement this month?" — stat: "Terrapin generates +32% more revenue per marketer with Kaplun."
+- **Case studies:** "Hear from the brands that grow with Kaplun" — cards: Nūrio (+212% creator-sourced revenue), video card w/ shapes-tower.webm loop + play overlay ("Watch how Bloom & Co. scaled seeding"), Halcyon (40+ campaigns).
+- **Resources:** "Learn more about creator-led growth" — 6 cards: Creator Playbook (guide), 2026 Creator Pricing Report, Livestream "How Kaplun uses Kaplun", Community story, Careers ("Come and join us"), Kaplun Academy.
+- **CTA band:** "Turn your creator ideas into revenue today" + "Book your demo today. No commitment required."
+- **Footer:** columns Services · Platform · Playbooks · Resources · Company · Customers · Legal; "Born remote" + "©2026 Kaplun Tech."; socials LinkedIn/YouTube/X.
+
+### 0.6 Motion rules (verified + system)
+
+- Hero: video autoplay loop; h1/sub/CTAs staggered fade-up on load (0/100/200ms), GPU props only.
+- Bento: infinite horizontal marquee (translateX loop, ~40s duration, pause on hover, `prefers-reduced-motion` disables).
+- Tabs: panel crossfade (opacity + translateY 8px, 250ms ease-out).
+- Scroll reveal: IntersectionObserver, fade-up 24px → 0, 700ms cubic-bezier(0.22,1,0.36,1), once per element, threshold 0.15.
+- Band videos: autoplay muted loop playsinline, `preload="metadata"`.
+- Hover: cards lift translateY(-4px) + soft shadow; buttons translateY(-1px). No other hover decoration.
+- Never animate layout properties (width/height/top/left).
+
 ## Overview
 
 Clay.com is the most playful B2B SaaS interface in the GTM-data category. The base atmosphere is **cream-tinted white canvas** (`{colors.canvas}` — #fffaf0) holding dark-navy ink type and **3D-rendered claymation illustrations** (mountains, mascot characters, peach/ochre/lavender landscapes) as the dominant brand voltage. Where most data-platform brands play it cool with grids and gradients, Clay leans hard into hand-crafted-looking 3D illustrations and saturated single-color feature cards.

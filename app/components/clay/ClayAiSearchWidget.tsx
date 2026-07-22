@@ -3,28 +3,28 @@
 import React, { useState } from "react";
 
 const chipPrompts: Record<string, { query: string; resultsCount: string; sampleTag: string }> = {
-  creators: {
-    query: "Find Instagram lifestyle & beauty creators in the UK with >5% engagement and 100k+ followers",
+  skincare: {
+    query: "Find skincare creators with >5% engagement and 100k+ followers in the UK and US",
     resultsCount: "840 Matched Creators",
     sampleTag: "Creator Discovery",
   },
-  campaigns: {
-    query: "Find top-performing TikTok UGC video hooks for skincare seeding campaigns",
-    resultsCount: "1,250 Verified Hooks",
-    sampleTag: "Campaign Intelligence",
+  fitness: {
+    query: "Find fitness creators with high engagement and authentic audience in Europe",
+    resultsCount: "1,250 Verified Creators",
+    sampleTag: "Creator Discovery",
   },
-  ads: {
-    query: "Find whitelisted Meta partnership ad creative with 3.5x+ historical ROAS",
-    resultsCount: "420 Tested Assets",
-    sampleTag: "Whitelisted Ad Assets",
+  food: {
+    query: "Find food and beverage creators with strong storytelling and 50k+ followers",
+    resultsCount: "620 Matched Creators",
+    sampleTag: "Creator Discovery",
   },
 };
 
 export function ClayAiSearchWidget() {
-  const [selectedChip, setSelectedChip] = useState<"creators" | "campaigns" | "ads">("creators");
-  const [inputValue, setInputValue] = useState(chipPrompts.creators.query);
+  const [selectedChip, setSelectedChip] = useState<"skincare" | "fitness" | "food">("skincare");
+  const [inputValue, setInputValue] = useState(chipPrompts.skincare.query);
 
-  const handleChipClick = (chip: "creators" | "campaigns" | "ads") => {
+  const handleChipClick = (chip: "skincare" | "fitness" | "food") => {
     setSelectedChip(chip);
     setInputValue(chipPrompts[chip].query);
   };
@@ -33,12 +33,12 @@ export function ClayAiSearchWidget() {
     <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center space-y-8">
       {/* Title */}
       <div className="space-y-3">
-        <h2 className="text-3xl sm:text-5xl font-semibold text-[#0a0a0a] tracking-tight">
+        <h3
+          className="text-3xl sm:text-5xl lg:text-[48px] font-medium text-[#0a0a0a] tracking-[-1.92px] leading-[1.0]"
+          style={{ fontFamily: "var(--font-display), Arial, sans-serif" }}
+        >
           What creators do you want to source?
-        </h2>
-        <p className="text-base sm:text-lg text-[#666666]">
-          Search natural language briefs or explore pre-vetted creator databases.
-        </p>
+        </h3>
       </div>
 
       {/* AI Search Card styled with Clay aesthetics */}
@@ -57,7 +57,7 @@ export function ClayAiSearchWidget() {
             className="absolute right-3 p-3 bg-[#0a0a0a] text-white rounded-xl hover:bg-neutral-800 transition-transform active:scale-95 shadow-sm"
             aria-label="Execute search query"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <line x1="5" y1="12" x2="19" y2="12" />
               <polyline points="12 5 19 12 12 19" />
             </svg>
@@ -69,38 +69,38 @@ export function ClayAiSearchWidget() {
           <div className="flex items-center gap-2 flex-wrap">
             <button
               type="button"
-              onClick={() => handleChipClick("creators")}
+              onClick={() => handleChipClick("skincare")}
               className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
-                selectedChip === "creators"
+                selectedChip === "skincare"
                   ? "bg-[#0a0a0a] text-white shadow-xs"
                   : "bg-[#faf6ee] text-[#383838] hover:bg-neutral-200/60"
               }`}
             >
-              Find creator matches
+              Find skincare creators
             </button>
 
             <button
               type="button"
-              onClick={() => handleChipClick("campaigns")}
+              onClick={() => handleChipClick("fitness")}
               className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
-                selectedChip === "campaigns"
+                selectedChip === "fitness"
                   ? "bg-[#0a0a0a] text-white shadow-xs"
                   : "bg-[#faf6ee] text-[#383838] hover:bg-neutral-200/60"
               }`}
             >
-              Find campaign hooks
+              Find fitness creators
             </button>
 
             <button
               type="button"
-              onClick={() => handleChipClick("ads")}
+              onClick={() => handleChipClick("food")}
               className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
-                selectedChip === "ads"
+                selectedChip === "food"
                   ? "bg-[#0a0a0a] text-white shadow-xs"
                   : "bg-[#faf6ee] text-[#383838] hover:bg-neutral-200/60"
               }`}
             >
-              Find whitelisted ad assets
+              Find food creators
             </button>
           </div>
 

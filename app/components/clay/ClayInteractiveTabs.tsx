@@ -14,8 +14,8 @@ interface ServiceItem {
 
 const servicesData: ServiceItem[] = [
   {
-    id: "influencer-sourcing",
-    label: "Influencer Sourcing",
+    id: "creator-sourcing",
+    label: "Creator Sourcing",
     title: "AI-driven discovery across Instagram & TikTok.",
     subtitle: "Our engine matches creators to your brand by audience demographics, content style, engagement rates, and historical performance.",
     metrics: "24h Vetted Shortlists",
@@ -28,9 +28,9 @@ const servicesData: ServiceItem[] = [
     ],
   },
   {
-    id: "seeding-affiliates",
-    label: "Seeding & Affiliates",
-    title: "Done-for-you product gifting & affiliate management.",
+    id: "product-seeding",
+    label: "Product Seeding",
+    title: "Done-for-you product gifting at scale.",
     subtitle: "We handle sourcing, logistics, posting, rights, and payouts end-to-end — so your team stays focused on strategy.",
     metrics: "100% Automated Gifting",
     codeSnippet: "Auto-ship product seed boxes, trigger affiliate tracking links, and sync sales payouts to Shopify dashboard.",
@@ -42,8 +42,22 @@ const servicesData: ServiceItem[] = [
     ],
   },
   {
-    id: "organic-content",
-    label: "Organic Content",
+    id: "affiliates",
+    label: "Affiliates",
+    title: "Affiliate management that runs itself.",
+    subtitle: "Track links, commissions, and payouts in one place with automated reconciliation and real-time reporting.",
+    metrics: "Auto Payouts",
+    codeSnippet: "Curate 25 monthly UGC video assets with high-converting hooks, raw B-roll, and multi-format aspect ratios.",
+    tableData: [
+      { creator: "@alex_vlogs", platform: "Reels / TikTok", engagement: "UGC Video Delivered", score: 97 },
+      { creator: "@zoe_daily", platform: "TikTok", engagement: "UGC Video Delivered", score: 94 },
+      { creator: "@lily_review", platform: "Shorts", engagement: "UGC Video Delivered", score: 93 },
+      { creator: "@nathan_tech", platform: "Reels", engagement: "UGC Video Delivered", score: 90 },
+    ],
+  },
+  {
+    id: "ugc-content",
+    label: "UGC Content",
     title: "Ongoing paid creator posts that build a renewable content engine.",
     subtitle: "High-quality content for your owned and earned channels with full usage rights for paid amplification.",
     metrics: "Full Commercial Rights",
@@ -69,10 +83,38 @@ const servicesData: ServiceItem[] = [
       { creator: "@ethan_digital", platform: "TikTok Spark Ad", engagement: "3.1x ROAS", score: 91 },
     ],
   },
+  {
+    id: "whitelisting",
+    label: "Whitelisting",
+    title: "Run ads through creator handles with full transparency.",
+    subtitle: "Whitelisted Spark Ads and Meta Partnership ads with dynamic headline iterations and automated A/B testing.",
+    metrics: "Full Rights Bundled",
+    codeSnippet: "Deploy whitelisted Spark Ads and Meta Partnership ads with dynamic headline iterations and automated A/B testing.",
+    tableData: [
+      { creator: "@isabella_ads", platform: "Meta Partnership", engagement: "4.2x ROAS", score: 99 },
+      { creator: "@lucas_ugc", platform: "TikTok Spark Ad", engagement: "3.8x ROAS", score: 96 },
+      { creator: "@ava_creator", platform: "Meta Partnership", engagement: "3.5x ROAS", score: 94 },
+      { creator: "@ethan_digital", platform: "TikTok Spark Ad", engagement: "3.1x ROAS", score: 91 },
+    ],
+  },
+  {
+    id: "analytics",
+    label: "Analytics",
+    title: "Real-time performance dashboards for every campaign.",
+    subtitle: "Track ROAS, engagement, and creator ROI in one unified analytics suite.",
+    metrics: "Live Dashboards",
+    codeSnippet: "Track ROAS, engagement, and creator ROI in one unified analytics suite with automated reporting.",
+    tableData: [
+      { creator: "@isabella_ads", platform: "Meta Partnership", engagement: "4.2x ROAS", score: 99 },
+      { creator: "@lucas_ugc", platform: "TikTok Spark Ad", engagement: "3.8x ROAS", score: 96 },
+      { creator: "@ava_creator", platform: "Meta Partnership", engagement: "3.5x ROAS", score: 94 },
+      { creator: "@ethan_digital", platform: "TikTok Spark Ad", engagement: "3.1x ROAS", score: 91 },
+    ],
+  },
 ];
 
 export function ClayInteractiveTabs() {
-  const [activeTabId, setActiveTabId] = useState<string>("influencer-sourcing");
+  const [activeTabId, setActiveTabId] = useState<string>("creator-sourcing");
 
   const activeTab = servicesData.find((s) => s.id === activeTabId) || servicesData[0];
 
@@ -80,14 +122,14 @@ export function ClayInteractiveTabs() {
     <section id="services" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-10">
       {/* Title Header */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
-        <span className="text-xs font-bold tracking-widest uppercase text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200/50">
-          WHAT WE DO
-        </span>
-        <h2 className="text-3xl sm:text-5xl font-semibold text-[#0a0a0a] tracking-tight">
-          Services built for modern consumer brands
+        <h2
+          className="text-3xl sm:text-5xl lg:text-[72px] font-medium text-[#0a0a0a] tracking-[-2.16px] leading-[1.0]"
+          style={{ fontFamily: "var(--font-display), Arial, sans-serif" }}
+        >
+          GTM engineers build on Kaplun
         </h2>
         <p className="text-lg text-[#666666]">
-          {activeTab.subtitle}
+          Find every account in your TAM in one place.
         </p>
       </div>
 
@@ -132,7 +174,7 @@ export function ClayInteractiveTabs() {
                 <span className="text-emerald-600 font-semibold">AI Match Active</span>
               </div>
               <p className="text-xs sm:text-sm text-[#383838] leading-relaxed font-mono bg-neutral-50 p-3 rounded-xl border border-neutral-200/60">
-                "{activeTab.codeSnippet}"
+                &quot;{activeTab.codeSnippet}&quot;
               </p>
             </div>
           </div>
@@ -160,8 +202,8 @@ export function ClayInteractiveTabs() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-neutral-100 font-medium">
-                  {activeTab.tableData.map((row, idx) => (
-                    <tr key={idx} className="hover:bg-neutral-50/80 transition-colors">
+                  {activeTab.tableData.map((row) => (
+                    <tr key={row.creator} className="hover:bg-neutral-50/80 transition-colors">
                       <td className="py-3 text-[#0a0a0a] font-semibold">{row.creator}</td>
                       <td className="py-3 text-[#383838]">{row.platform}</td>
                       <td className="py-3">

@@ -36,6 +36,11 @@ yarn-error.log*
 # vercel
 .vercel
 
+# temp and local agent files
+.omo/
+.playwright-mcp/
+*.log
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
