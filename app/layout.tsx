@@ -61,9 +61,19 @@ export const metadata: Metadata = {
     siteName: "Kaplun",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://kaplun.tech/og-image.jpg",
+        secureUrl: "https://kaplun.tech/og-image.jpg",
         width: 1200,
         height: 630,
+        type: "image/jpeg",
+        alt: "Kaplun — Build systems to grow with creators",
+      },
+      {
+        url: "https://kaplun.tech/og-image.png",
+        secureUrl: "https://kaplun.tech/og-image.png",
+        width: 1200,
+        height: 630,
+        type: "image/png",
         alt: "Kaplun — Build systems to grow with creators",
       },
     ],
@@ -75,8 +85,16 @@ export const metadata: Metadata = {
     title: "Kaplun — Build systems to grow with creators",
     description:
       "Infrastructure to source micro-influencers, launch seeding programs, and scale creator-led growth.",
-    images: ["/twitter-image.png"],
+    images: [
+      {
+        url: "https://kaplun.tech/twitter-image.jpg",
+        alt: "Kaplun — Build systems to grow with creators",
+        width: 1200,
+        height: 630,
+      },
+    ],
     creator: "@kapluntech",
+    site: "@kapluntech",
   },
   robots: {
     index: true,
