@@ -25,7 +25,7 @@ function BentoCard({ item }: { item: (typeof bentoItems)[number] & { id?: string
   }
   return (
     <div className="flex-shrink-0 w-80 sm:w-96 bg-white rounded-2xl border border-black/5 p-6 shadow-sm">
-      <p className="text-sm text-[#383838] leading-relaxed italic">"{item.text}"</p>
+      <p className="text-sm text-[#383838] leading-relaxed italic">&quot;{item.text}&quot;</p>
       <p className="text-xs font-semibold text-[#0a0a0a] mt-3">{item.brand}</p>
     </div>
   );

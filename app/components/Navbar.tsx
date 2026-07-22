@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { Logo } from "./Logo";
 
 interface NavbarProps {
@@ -72,22 +73,26 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
       )}
 
       <header className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none transition-all duration-300">
-        {/* Floating navbar container on both mobile (92% width) and desktop (98% width) */}
+        {/* Floating navbar container on both mobile and desktop with unified width math */}
         <div
-          className={`pointer-events-auto w-[94%] md:w-[96%] max-w-[1600px] h-[64px] bg-white/98 backdrop-blur-md border-b border-x border-[rgba(209,205,199,0.6)] rounded-b-2xl sm:rounded-b-3xl rounded-t-none px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${
-            isScrolled ? "shadow-md bg-white border-neutral-300" : "shadow-none"
+          className={`pointer-events-auto w-[94%] sm:w-[95%] md:w-[96%] max-w-[1600px] h-[64px] bg-white/98 backdrop-blur-md border-x border-[rgba(209,205,199,0.6)] ${
+            mobileMenuOpen
+              ? "rounded-b-none border-b border-b-white"
+              : "rounded-b-2xl sm:rounded-b-3xl border-b border-b-[rgba(209,205,199,0.6)]"
+          } rounded-t-none px-4 sm:px-6 flex items-center justify-between transition-[border-radius,box-shadow,background-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            isScrolled ? "shadow-md bg-white" : "shadow-none"
           }`}
         >
           {/* Left Side: Brand Logo + Desktop Nav Links */}
           <div className="flex items-center gap-6 lg:gap-8">
             {/* Brand Logo */}
-            <a
+            <Link
               href="/"
               className="flex items-center gap-2 text-lg font-bold text-[#0a0a0a] tracking-tight no-underline hover:opacity-90 transition-opacity"
             >
-            <Logo size={24} />
-            <span className="font-bold text-2xl tracking-tight">Kaplun</span>
-            </a>
+              <Logo size={24} />
+              <span className="font-bold text-2xl tracking-tight">Kaplun</span>
+            </Link>
 
             {/* Desktop Navigation Links */}
             <nav className="hidden md:flex items-center gap-1">
@@ -195,14 +200,14 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
           </div>
         </div>
 
-        {/* Floating Mobile Drawer (Seamless extension of the floating navbar) */}
+        {/* Floating Mobile Drawer (Seamless extension of the top navbar) */}
         {drawerMounted && (
           <div
             role="dialog"
             aria-modal="true"
             aria-label="Navigation menu"
-            className={`pointer-events-auto w-[92%] md:w-[98%] max-w-[1600px] bg-white/98 backdrop-blur-md p-6 space-y-6 md:hidden overflow-y-auto border-b border-x border-[rgba(209,205,199,0.6)] rounded-b-3xl shadow-xl transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-              drawerVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
+            className={`pointer-events-auto w-[94%] sm:w-[95%] md:w-[96%] max-w-[1600px] bg-white/98 backdrop-blur-md p-6 space-y-6 md:hidden overflow-y-auto border-b border-x border-t border-t-white border-[rgba(209,205,199,0.6)] rounded-t-none rounded-b-2xl sm:rounded-b-3xl shadow-xl transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+              drawerVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"
             }`}
             onClick={() => setDrawer(false)}
             onKeyDown={(e) => { if (e.key === "Escape") setDrawer(false); }}
@@ -238,7 +243,7 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
               </a>
             </div>
 
-            <div className="pt-4 space-y-3">
+            <div className="pt-2 space-y-3">
               <button
                 type="button"
                 onClick={() => {
