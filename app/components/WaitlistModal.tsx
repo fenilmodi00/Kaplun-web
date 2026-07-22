@@ -1,6 +1,54 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+function validateClientEmail(email: string): { valid: boolean; reason?: string } {
+  if (!email || !email.trim()) {
+    return { valid: false, reason: "Please enter an email address." };
+  }
+  const normalized = email.trim();
+  if (normalized.length > 254) {
+    return { valid: false, reason: "Email address is too long." };
+  }
+  if (/\s/.test(normalized)) {
+    return { valid: false, reason: "Email address cannot contain spaces." };
+  }
+  const parts = normalized.split("@");
+  if (parts.length !== 2) {
+    return { valid: false, reason: "Please enter a valid email format (e.g. name@domain.com)." };
+  }
+  const [localPart, domainPart] = parts;
+  if (!localPart || localPart.length > 64) {
+    return { valid: false, reason: "Invalid email username length." };
+  }
+  if (!domainPart || domainPart.length > 253) {
+    return { valid: false, reason: "Invalid email domain length." };
+  }
+  const localRegex = /^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*$/;
+  if (!localRegex.test(localPart)) {
+    return { valid: false, reason: "Invalid characters in email username." };
+  }
+  const domainRegex = /^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
+  if (!domainRegex.test(domainPart)) {
+    return { valid: false, reason: "Please enter a valid domain (e.g. domain.com or company.io)." };
+  }
+  const lowerDomain = domainPart.toLowerCase();
+  const knownFakeDomains = [
+    "example.com",
+    "test.com",
+    "sample.com",
+    "fake.com",
+    "tempmail.com",
+    "mailinator.com",
+    "10minutemail.com",
+    "dispostable.com",
+    "trashmail.com",
+  ];
+  if (knownFakeDomains.includes(lowerDomain)) {
+    return { valid: false, reason: "Please enter a valid personal or work email address." };
+  }
+  return { valid: true };
+}
 
 export function WaitlistModal({
   open,
@@ -12,39 +60,67 @@ export function WaitlistModal({
   onClose: () => void;
 }) {
   const [email, setEmail] = useState("");
+  const [submittedEmail, setSubmittedEmail] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const [duplicateEmail, setDuplicateEmail] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [succeeded, setSucceeded] = useState(false);
+
+  // Reset state when modal is opened or closed
+  useEffect(() => {
+    if (!open) {
+      setError(null);
+      setSubmitting(false);
+    }
+  }, [open]);
+
+  const handleClose = () => {
+    setError(null);
+    setSucceeded(false);
+    setDuplicateEmail(false);
+    setEmail("");
+    onClose();
+  };
 
   if (!mounted) return null;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
+
+    const validation = validateClientEmail(email);
+    if (!validation.valid) {
+      setError(validation.reason || "Invalid email address");
+      return;
+    }
+
     setSubmitting(true);
 
     try {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: email.trim() }),
       });
       const data = await res.json();
 
       if (data.ok) {
-        setDuplicateEmail(data.alreadyRegistered);
+        setSubmittedEmail(data.email || email.trim().toLowerCase());
+        setDuplicateEmail(!!data.alreadyRegistered);
         setSucceeded(true);
       } else {
-        console.error("Failed to join waitlist:", data.error);
+        setError(data.error || "Failed to join waitlist. Please check your email and try again.");
       }
     } catch (err) {
       console.error("Failed to join waitlist:", err);
+      setError("Network error. Please check your internet connection and try again.");
     } finally {
       setSubmitting(false);
     }
   };
 
   const showSuccess = succeeded || duplicateEmail;
-  const isAlreadyRegistered = duplicateEmail && !succeeded;
+  const isAlreadyRegistered = duplicateEmail && succeeded;
   const hidden = open ? "" : " kaplun-hidden";
 
   return (
@@ -62,8 +138,12 @@ export function WaitlistModal({
         backdropFilter: "blur(8px)",
       }}
       className={`kaplun-modal-backdrop${hidden}`}
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
-      onKeyDown={(e) => { if (e.key === "Escape") onClose(); }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) handleClose();
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") handleClose();
+      }}
     >
       <div
         style={{
@@ -99,15 +179,22 @@ export function WaitlistModal({
                 fontSize: "var(--clay-body-md)",
                 color: "var(--clay-body)",
                 marginBottom: "var(--clay-spacing-xl)",
+                lineHeight: 1.5,
               }}
             >
-              {isAlreadyRegistered
-                ? "You're already on the waitlist. We'll get back to you soon!"
-                : "We'll notify you when Kaplun is ready. Thanks for your interest!"}
+              {isAlreadyRegistered ? (
+                <>
+                  We already have <strong style={{ color: "var(--clay-ink)" }}>{submittedEmail}</strong> registered on our waitlist. Don't worry, we'll reach out to you as soon as we launch!
+                </>
+              ) : (
+                <>
+                  We'll notify <strong style={{ color: "var(--clay-ink)" }}>{submittedEmail}</strong> when Kaplun is ready. Thanks for your interest!
+                </>
+              )}
             </p>
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               style={{
                 background: "var(--clay-primary)",
                 color: "var(--clay-on-primary)",
@@ -121,7 +208,7 @@ export function WaitlistModal({
                 cursor: "pointer",
               }}
             >
-              Done
+              {isAlreadyRegistered ? "Got it" : "Done"}
             </button>
           </div>
         ) : (
@@ -148,7 +235,28 @@ export function WaitlistModal({
               Be the first to know when Kaplun launches.
             </p>
 
-            <form onSubmit={handleSubmit}>
+            {error && (
+              <div
+                style={{
+                  background: "#fef2f2",
+                  border: "1px solid #fecaca",
+                  color: "#dc2626",
+                  padding: "10px 14px",
+                  borderRadius: "var(--clay-rounded-md)",
+                  fontSize: "13px",
+                  fontWeight: 500,
+                  marginBottom: "var(--clay-spacing-md)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                }}
+              >
+                <span style={{ fontSize: 16 }}>⚠️</span>
+                <span>{error}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} noValidate>
               <label
                 htmlFor="waitlist-email"
                 style={{
@@ -166,14 +274,19 @@ export function WaitlistModal({
                 type="email"
                 required
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (error) setError(null);
+                }}
+                placeholder="you@company.com"
                 style={{
                   width: "100%",
                   height: 44,
                   padding: "12px 16px",
                   borderRadius: "var(--clay-rounded-md)",
-                  border: "1px solid var(--clay-hairline)",
+                  border: error
+                    ? "1px solid #ef4444"
+                    : "1px solid var(--clay-hairline)",
                   fontSize: "var(--clay-body-md)",
                   fontFamily: '"Inter", sans-serif',
                   color: "var(--clay-ink)",
@@ -208,7 +321,7 @@ export function WaitlistModal({
 
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               style={{
                 display: "block",
                 width: "100%",
