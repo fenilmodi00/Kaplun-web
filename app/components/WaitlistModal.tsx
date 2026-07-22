@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useWaitlist } from "@clerk/nextjs";
 
 export function WaitlistModal({
   open,
@@ -12,31 +11,40 @@ export function WaitlistModal({
   mounted: boolean;
   onClose: () => void;
 }) {
-  const { waitlist, errors, fetchStatus } = useWaitlist();
   const [email, setEmail] = useState("");
   const [duplicateEmail, setDuplicateEmail] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [succeeded, setSucceeded] = useState(false);
 
   if (!mounted) return null;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSubmitting(true);
 
-    const { error } = await waitlist.join({ emailAddress: email });
-    if (error) {
-      const clerkErrors = (error as { errors?: Array<{ code?: string }> })
-        ?.errors;
-      const isDuplicate =
-        clerkErrors?.[0]?.code === "form_identifier_exists";
-      if (isDuplicate) {
-        setDuplicateEmail(true);
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+
+      if (data.ok) {
+        setDuplicateEmail(data.alreadyRegistered);
+        setSucceeded(true);
       } else {
-        console.error("Failed to join waitlist:", error);
+        console.error("Failed to join waitlist:", data.error);
       }
+    } catch (err) {
+      console.error("Failed to join waitlist:", err);
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  const succeeded = Boolean(waitlist.id || duplicateEmail);
-  const isAlreadyRegistered = duplicateEmail && !waitlist.id;
+  const showSuccess = succeeded || duplicateEmail;
+  const isAlreadyRegistered = duplicateEmail && !succeeded;
   const hidden = open ? "" : " kaplun-hidden";
 
   return (
@@ -64,11 +72,11 @@ export function WaitlistModal({
           padding: "var(--clay-spacing-2xl)",
           maxWidth: 440,
           width: "90%",
-          textAlign: succeeded ? "center" : undefined,
+          textAlign: showSuccess ? "center" : undefined,
         }}
         className={`kaplun-modal-dialog${hidden}`}
       >
-        {succeeded ? (
+        {showSuccess ? (
           <div className="kaplun-content-enter">
             <div
               style={{ fontSize: 48, marginBottom: "var(--clay-spacing-md)" }}
@@ -172,25 +180,13 @@ export function WaitlistModal({
                   background: "var(--clay-canvas)",
                   outline: "none",
                   boxSizing: "border-box",
-                  marginBottom: errors?.fields?.emailAddress
-                    ? "var(--clay-spacing-xs)"
-                    : "var(--clay-spacing-md)",
+                  marginBottom: "var(--clay-spacing-md)",
                 }}
               />
-              {errors?.fields?.emailAddress && (
-                <p
-                  style={{
-                    fontSize: "var(--clay-body-sm)",
-                    color: "#dc2626",
-                    marginBottom: "var(--clay-spacing-md)",
-                  }}
-                >
-                  {errors.fields.emailAddress.longMessage}
-                </p>
-              )}
+
               <button
                 type="submit"
-                disabled={fetchStatus === "fetching"}
+                disabled={submitting}
                 style={{
                   width: "100%",
                   height: 44,
@@ -200,13 +196,13 @@ export function WaitlistModal({
                   fontWeight: 600,
                   fontFamily: '"Inter", sans-serif',
                   border: "none",
-                  cursor: fetchStatus === "fetching" ? "not-allowed" : "pointer",
+                  cursor: submitting ? "not-allowed" : "pointer",
                   background: "var(--clay-primary)",
                   color: "var(--clay-on-primary)",
-                  opacity: fetchStatus === "fetching" ? 0.7 : 1,
+                  opacity: submitting ? 0.7 : 1,
                 }}
               >
-                {fetchStatus === "fetching" ? "Joining..." : "Join Waitlist"}
+                {submitting ? "Joining..." : "Join Waitlist"}
               </button>
             </form>
 
