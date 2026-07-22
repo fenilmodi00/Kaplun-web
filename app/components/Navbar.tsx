@@ -74,7 +74,7 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
       <header className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none transition-all duration-300">
         {/* Floating navbar container on both mobile (92% width) and desktop (98% width) */}
         <div
-          className={`pointer-events-auto w-[92%] md:w-[98%] max-w-[1600px] h-[58.5px] bg-white/98 backdrop-blur-md border-b border-x border-[rgba(209,205,199,0.6)] rounded-b-2xl sm:rounded-b-3xl rounded-t-none px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${
+          className={`pointer-events-auto w-[94%] md:w-[96%] max-w-[1600px] h-[64px] bg-white/98 backdrop-blur-md border-b border-x border-[rgba(209,205,199,0.6)] rounded-b-2xl sm:rounded-b-3xl rounded-t-none px-4 sm:px-6 flex items-center justify-between transition-all duration-300 ${
             isScrolled ? "shadow-md bg-white border-neutral-300" : "shadow-none"
           }`}
         >
