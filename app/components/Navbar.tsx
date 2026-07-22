@@ -11,6 +11,7 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [drawerMounted, setDrawerMounted] = useState(false);
+  const [drawerVisible, setDrawerVisible] = useState(false);
   const drawerTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -21,6 +22,12 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (drawerTimer.current) clearTimeout(drawerTimer.current);
+    };
+  }, []);
+
   const setDrawer = (open: boolean) => {
     if (drawerTimer.current) {
       clearTimeout(drawerTimer.current);
@@ -29,9 +36,15 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
     if (open) {
       setDrawerMounted(true);
       setMobileMenuOpen(true);
+      drawerTimer.current = setTimeout(() => {
+        setDrawerVisible(true);
+      }, 20);
     } else {
+      setDrawerVisible(false);
       setMobileMenuOpen(false);
-      drawerTimer.current = setTimeout(() => setDrawerMounted(false), 320);
+      drawerTimer.current = setTimeout(() => {
+        setDrawerMounted(false);
+      }, 300);
     }
   };
 
@@ -52,7 +65,7 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
       {drawerMounted && (
         <div
           className={`fixed inset-0 z-40 bg-black/15 backdrop-blur-[1px] md:hidden transition-opacity duration-300 ${
-            mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+            drawerVisible ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           }`}
           onClick={() => setDrawer(false)}
         />
@@ -65,46 +78,49 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
             isScrolled ? "shadow-md bg-white border-neutral-300" : "shadow-none"
           }`}
         >
-          {/* Brand Logo */}
-          <a
-            href="/"
-            className="flex items-center gap-2 text-lg font-bold text-[#0a0a0a] tracking-tight no-underline hover:opacity-90 transition-opacity"
-          >
-            <Logo size={24} />
-            <span className="font-semibold text-lg tracking-tight">Kaplun</span>
-          </a>
+          {/* Left Side: Brand Logo + Desktop Nav Links */}
+          <div className="flex items-center gap-6 lg:gap-8">
+            {/* Brand Logo */}
+            <a
+              href="/"
+              className="flex items-center gap-2 text-lg font-bold text-[#0a0a0a] tracking-tight no-underline hover:opacity-90 transition-opacity"
+            >
+              <Logo size={24} />
+              <span className="font-semibold text-lg tracking-tight">Kaplun</span>
+            </a>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1">
-            <a
-              href="#services"
-              onClick={(e) => handleNavClick(e, "#services")}
-              className="px-3.5 py-1.5 rounded-xl text-sm font-medium text-[#0a0a0a] hover:text-[#7b7974] transition-colors"
-            >
-              Services
-            </a>
-            <a
-              href="#how-it-works"
-              onClick={(e) => handleNavClick(e, "#how-it-works")}
-              className="px-3.5 py-1.5 rounded-xl text-sm font-medium text-[#0a0a0a] hover:text-[#7b7974] transition-colors"
-            >
-              How It Works
-            </a>
-            <a
-              href="#results"
-              onClick={(e) => handleNavClick(e, "#results")}
-              className="px-3.5 py-1.5 rounded-xl text-sm font-medium text-[#0a0a0a] hover:text-[#7b7974] transition-colors"
-            >
-              Results
-            </a>
-            <a
-              href="#pricing"
-              onClick={(e) => handleNavClick(e, "#pricing")}
-              className="px-3.5 py-1.5 rounded-xl text-sm font-medium text-[#0a0a0a] hover:text-[#7b7974] transition-colors"
-            >
-              Pricing
-            </a>
-          </nav>
+            {/* Desktop Navigation Links */}
+            <nav className="hidden md:flex items-center gap-1">
+              <a
+                href="#services"
+                onClick={(e) => handleNavClick(e, "#services")}
+                className="px-3.5 py-1.5 rounded-xl text-sm font-medium text-[#0a0a0a] hover:text-[#7b7974] transition-colors"
+              >
+                Services
+              </a>
+              <a
+                href="#how-it-works"
+                onClick={(e) => handleNavClick(e, "#how-it-works")}
+                className="px-3.5 py-1.5 rounded-xl text-sm font-medium text-[#0a0a0a] hover:text-[#7b7974] transition-colors"
+              >
+                How It Works
+              </a>
+              <a
+                href="#results"
+                onClick={(e) => handleNavClick(e, "#results")}
+                className="px-3.5 py-1.5 rounded-xl text-sm font-medium text-[#0a0a0a] hover:text-[#7b7974] transition-colors"
+              >
+                Results
+              </a>
+              <a
+                href="#pricing"
+                onClick={(e) => handleNavClick(e, "#pricing")}
+                className="px-3.5 py-1.5 rounded-xl text-sm font-medium text-[#0a0a0a] hover:text-[#7b7974] transition-colors"
+              >
+                Pricing
+              </a>
+            </nav>
+          </div>
 
           {/* Right Action Buttons with Clay's Exact Sizing & Styling */}
           <div className="hidden md:flex items-center gap-2">
@@ -186,7 +202,7 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
             aria-modal="true"
             aria-label="Navigation menu"
             className={`pointer-events-auto w-[92%] md:w-[98%] max-w-[1600px] bg-white/98 backdrop-blur-md p-6 space-y-6 md:hidden overflow-y-auto border-b border-x border-[rgba(209,205,199,0.6)] rounded-b-3xl shadow-xl transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-              mobileMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"
+              drawerVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
             }`}
             onClick={() => setDrawer(false)}
             onKeyDown={(e) => { if (e.key === "Escape") setDrawer(false); }}

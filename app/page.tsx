@@ -44,7 +44,7 @@ export default function Home() {
       <ClayHero onOpenWaitlist={openWaitlist} />
 
       {/* 3. Social proof + bento marquee wrapped in a rounded overlapping container */}
-      <div className="relative z-10 -mt-10 sm:-mt-16 bg-[#fffaf0] rounded-t-[32px] sm:rounded-t-[48px] border-t border-[rgba(209,205,199,0.3)] shadow-[0_-12px_32px_rgba(0,0,0,0.02)]">
+      <div className="relative z-10 mt-[-6vh] sm:-mt-16 bg-[#fffaf0] rounded-t-[32px] sm:rounded-t-[48px] border-t border-[rgba(209,205,199,0.3)] shadow-[0_-12px_32px_rgba(0,0,0,0.02)]">
         <ClayLogoCloud />
         <ClayProofBento />
       </div>

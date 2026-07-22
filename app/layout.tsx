@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: "%s | Kaplun",
   },
   description:
-    "The AI creator-led growth partner. We pair state-of-the-art AI discovery with a senior in-house team to source, activate, and amplify high-ROI influencer campaigns.",
+    "Build systems to grow with creators. We pair state-of-the-art AI discovery with a senior in-house team to source, activate, and amplify high-ROI influencer campaigns.",
   keywords: [
     "Creator Marketing",
     "Influencer Sourcing Engine",
@@ -54,9 +54,9 @@ export const metadata: Metadata = {
     canonical: "https://kaplun.tech",
   },
   openGraph: {
-    title: "Kaplun — AI Creator-Led Growth Partner",
+    title: "Kaplun — Build systems to grow with creators",
     description:
-      "Scale your brand with AI creator discovery, done-for-you seeding, automated affiliate management, and whitelisted creator ads. Shortlists in 24 hours.",
+      "Infrastructure to source micro-influencers, launch seeding programs, and scale creator-led growth. Shortlists in 24 hours.",
     url: "https://kaplun.tech",
     siteName: "Kaplun",
     images: [
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Kaplun — AI Creator-Led Growth Partner",
+        alt: "Kaplun — Build systems to grow with creators",
       },
     ],
     locale: "en_US",
@@ -72,10 +72,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kaplun — AI Creator-Led Growth Partner",
+    title: "Kaplun — Build systems to grow with creators",
     description:
-      "AI creator discovery + senior in-house team to ship high-performing influencer campaigns in days.",
-    images: ["/og-image.png"],
+      "Infrastructure to source micro-influencers, launch seeding programs, and scale creator-led growth.",
+    images: ["/twitter-image.png"],
     creator: "@kapluntech",
   },
   robots: {
@@ -91,6 +91,8 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: "/favicon.ico",
+    shortcut: "/favicon-64.png",
+    apple: "/apple-icon.png",
   },
 };
 
