@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Logo } from "./Logo";
 
 interface NavbarProps {
@@ -9,6 +10,7 @@ interface NavbarProps {
 }
 
 export function Navbar({ onOpenWaitlist }: NavbarProps) {
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [drawerMounted, setDrawerMounted] = useState(false);
@@ -53,10 +55,22 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
     setDrawer(false);
     if (href.startsWith("#")) {
       e.preventDefault();
-      const targetEl = document.querySelector(href);
-      if (targetEl) {
-        targetEl.scrollIntoView({ behavior: "smooth" });
+      if (typeof window !== "undefined" && window.location.pathname === "/") {
+        const targetEl = document.querySelector(href);
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: "smooth" });
+        }
+      } else {
+        router.push(`/${href}`);
       }
+    }
+  };
+
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    setDrawer(false);
+    if (typeof window !== "undefined" && window.location.pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -88,6 +102,7 @@ export function Navbar({ onOpenWaitlist }: NavbarProps) {
             {/* Brand Logo */}
             <Link
               href="/"
+              onClick={handleLogoClick}
               className="flex items-center gap-2 text-lg font-bold text-[#0a0a0a] tracking-tight no-underline hover:opacity-90 transition-opacity"
             >
               <Logo size={24} />
